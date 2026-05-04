@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syria Macroeconomic Analysis — April 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root {
+    --bg-0: #0A1628; --bg-1: #0F1F35; --bg-2: #142A44; --line: #233F61;
+    --t1: #E8EEF6; --t2: #A8BACE; --t3: #7A8FA8;
+    --un: #009EDB; --un-deep: #1E4C7A;
+    --green: #2ECC71; --red: #E74C3C; --amber: #F39C12; --purple: #9B59B6;
+    --grad: linear-gradient(135deg, #009EDB 0%, #1E4C7A 100%);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg-0); color: var(--t1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: var(--bg-1); border-bottom: 1px solid var(--line);
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 42px; height: 42px;
+    background: var(--grad); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px; color: white; letter-spacing: -1px;
+  }
+  .brand-text h1 { font-size: 16px; font-weight: 700; }
+  .brand-text .subtitle { font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .header-meta { display: flex; gap: 18px; align-items: center; font-size: 12px; color: var(--t3); }
+  .anchor-badge {
+    background: rgba(0,158,219,0.15); color: var(--un);
+    padding: 5px 12px; border-radius: 12px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  }
+  main { max-width: 1240px; margin: 0 auto; padding: 32px; }
+  .doc-title {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px;
+    background: var(--grad); -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .doc-meta {
+    font-size: 12px; color: var(--t3); margin-bottom: 32px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .doc-meta span { margin-right: 18px; }
+  .doc-meta strong { color: var(--t2); font-weight: 600; }
+
+  .section-h {
+    font-size: 14px; font-weight: 700; color: var(--un);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 14px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .summary {
+    background: var(--bg-1); border: 1px solid var(--line);
+    border-radius: 10px; padding: 22px 26px;
+    margin-bottom: 32px;
+    border-left: 4px solid var(--un);
+  }
+  .summary p { color: var(--t1); font-size: 14px; line-height: 1.7; }
+  .summary strong { color: var(--un); font-weight: 600; }
+
+  .readings { margin-bottom: 32px; }
+  .reading {
+    background: var(--bg-1); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 16px 22px;
+    margin-bottom: 12px;
+    display: flex; gap: 18px;
+  }
+  .reading-num {
+    font-size: 30px; font-weight: 800; color: var(--accent);
+    line-height: 1; min-width: 80px; letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+  .reading-content { flex: 1; }
+  .reading-title { font-size: 13px; font-weight: 700; color: var(--t1); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .reading-body { font-size: 13px; color: var(--t2); line-height: 1.6; }
+
+  .panel {
+    background: var(--bg-1); border: 1px solid var(--line);
+    border-radius: 10px; padding: 22px; margin-bottom: 18px;
+  }
+  .panel-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .panel-subtitle { font-size: 12px; color: var(--t3); margin-bottom: 14px; line-height: 1.5; max-width: 800px; }
+  .takeaway {
+    font-size: 12.5px; color: var(--t1); line-height: 1.6;
+    padding: 12px 16px; background: rgba(0,158,219,0.08);
+    border-radius: 6px; border-left: 3px solid var(--un);
+    margin-bottom: 16px;
+  }
+  .takeaway strong { color: var(--un); }
+  .takeaway.warn { background: rgba(243,156,18,0.08); border-left-color: var(--amber); }
+  .takeaway.warn strong { color: var(--amber); }
+  .takeaway.alert { background: rgba(231,76,60,0.08); border-left-color: var(--red); }
+  .takeaway.alert strong { color: var(--red); }
+  .takeaway.good { background: rgba(46,204,113,0.10); border-left-color: var(--green); }
+  .takeaway.good strong { color: var(--green); }
+  .chart-wrap { position: relative; height: 320px; }
+  .chart-wrap.tall { height: 400px; }
+  .caveat {
+    background: rgba(243,156,18,0.07);
+    border: 1px solid rgba(243,156,18,0.3);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 11.5px; color: var(--t2); line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .caveat strong { color: var(--amber); }
+
+  /* === Tabs === */
+  .tabs {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    background: var(--bg-1); border: 1px solid var(--line);
+    border-radius: 10px; padding: 6px;
+    margin-bottom: 22px;
+  }
+  .tab {
+    padding: 10px 16px; border-radius: 7px; cursor: pointer;
+    font-size: 12.5px; font-weight: 600; color: var(--t2);
+    transition: all 0.15s; white-space: nowrap;
+    border: none; background: transparent; font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
+    flex: 1 1 auto; justify-content: center;
+    min-width: 130px;
+  }
+  .tab:hover { color: var(--t1); background: var(--bg-2); }
+  .tab.active { background: var(--grad); color: white; box-shadow: 0 2px 8px rgba(0,158,219,0.25); }
+  .tab-icon { font-size: 14px; line-height: 1; }
+  .tab-section { display: none; }
+  .tab-section.active { display: block; }
+
+  footer {
+    text-align: center; padding: 22px;
+    color: var(--t3); font-size: 11px;
+    border-top: 1px solid var(--line); margin-top: 32px;
+    line-height: 1.7;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-1); }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  .analysis {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: var(--bg-2);
+    border-left: 3px solid var(--analysis-accent, var(--un));
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--t1);
+    line-height: 1.65;
+  }
+  .analysis-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--analysis-accent, var(--un));
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+  }
+  .analysis p { margin-bottom: 8px; }
+  .analysis p:last-child { margin-bottom: 0; }
+  .analysis strong { color: var(--analysis-accent, var(--un)); }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">UN</div>
+    <div class="brand-text">
+      <h1>Syria Macroeconomic Analysis</h1>
+      <div class="subtitle">UN RCO Damascus  ·  Senior Economist Office</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span class="anchor-badge">April 2026</span>
+    <span id="data-status">Loading data...</span>
+  </div>
+</header>
+
+<main>
+  <h1 class="doc-title">Syria Macroeconomic Analysis — April 2026</h1>
+  <div class="doc-meta">
+    <span><strong>Prepared for:</strong> Resident Coordinator, Syria</span>
+    <span><strong>Anchor:</strong> April 2026</span>
+    <span><strong>Comparison:</strong> April 2025 → April 2026 (YoY)</span>
+  </div>
+
+  <!-- ========= SUMMARY ========= -->
+  <div class="section-h">Summary</div>
+  <div class="summary">
+    <p>Eighteen months after the fall of the Assad regime, Syria's economy is in a <strong>second phase of post-transition adjustment</strong>. The currency has retraced from its mid-2025 appreciation peak and settled around 12,300 SYP/USD; food prices have begun to rise across most of the basket, including in USD terms; real wages have improved modestly at the bottom of the income distribution; ports are operationally reopened at scale; and remote-sensing indicators show a clear divergence between economic activity (rising) and agricultural conditions (recovering from a poor 2024 base). The headline reading is that the post-transition stabilization has matured into a normalization phase — neither the optimistic "stability dividend" narrative of mid-2025 nor a return to crisis. The single most important number for the RC is the <strong>+12% YoY food basket inflation in USD terms</strong>: it tells you vendors are raising real prices, which means inflation is now a domestic story, not just a currency one.</p>
+  </div>
+
+  <!-- ========= STRATEGIC READINGS ========= -->
+  <div class="section-h">Strategic readings of April 2026</div>
+  <div class="readings">
+    <div class="reading" style="--accent: var(--red)">
+      <div class="reading-num">+27%</div>
+      <div class="reading-content">
+        <div class="reading-title">Food inflation has returned</div>
+        <div class="reading-body">The 12-item food basket (excluding bread) is up 27% in SYP and 12% in USD year-on-year. The USD increase confirms this is genuine vendor-side inflation, not an FX adjustment. Eleven of fourteen tracked items are up.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--green)">
+      <div class="reading-num">+26%</div>
+      <div class="reading-content">
+        <div class="reading-title">Real wages have improved — modestly</div>
+        <div class="reading-body">In USD terms — the only honest measure of real purchasing power — unskilled monthly wages rose 26% YoY, from $78 to $98. The +42% nominal SYP figure overstates the gain: most of it was simply compensating for currency depreciation.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--un)">
+      <div class="reading-num">+13%</div>
+      <div class="reading-content">
+        <div class="reading-title">Bread is no longer the inflation story</div>
+        <div class="reading-body">Bakery bread rose only 13% YoY — modest. The 7× shock from the December 2024 subsidy reset is now in the rear-view mirror. Shop bread, never subsidised, fell 13%. The right framing is a one-time level shift on the staple, not ongoing bread inflation.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--amber)">
+      <div class="reading-num">+13%</div>
+      <div class="reading-content">
+        <div class="reading-title">SYP retracing toward equilibrium</div>
+        <div class="reading-body">The currency depreciated 13% YoY (10,843 → 12,300). It remains 18% stronger than November 2024 — orderly retracement, not a return to pre-transition territory. Volatility, however, is roughly 5× pre-transition levels.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--un)">
+      <div class="reading-num">+379%</div>
+      <div class="reading-content">
+        <div class="reading-title">Ports are operationally reopened</div>
+        <div class="reading-body">Vessel deadweight tonnage at Tartus and Latakia rose 379% YoY. Shipping companies are routing vessels at scale. Caveat: this measures vessel capacity at port, not goods unloaded — customs data would be needed for cargo volumes.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--green)">
+      <div class="reading-num">+9%</div>
+      <div class="reading-content">
+        <div class="reading-title">Economic activity (nightlights) is up</div>
+        <div class="reading-body">Post-transition VIIRS radiance is 9% above pre-transition baseline. April-on-April YoY is +3%. Nightlights are an independent, satellite-derived proxy for economic activity — and they confirm the broader narrative that the urban economy is more active than it was in 2024.</div>
+      </div>
+    </div>
+    <div class="reading" style="--accent: var(--purple)">
+      <div class="reading-num">+56%</div>
+      <div class="reading-content">
+        <div class="reading-title">Agricultural conditions improving from a poor base</div>
+        <div class="reading-body">NDVI for March 2026 is 56% above March 2025. The recovery is meaningful but starts from a depressed base — March 2024 NDVI was 0.31 vs March 2025 at 0.17 and March 2026 at 0.27. Agriculture is recovering but not yet at pre-transition trend.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= EVIDENCE TABS ========= -->
+  <div class="section-h">Evidence</div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="food"><span class="tab-icon">🍞</span>Food</button>
+    <button class="tab" data-tab="fx"><span class="tab-icon">💱</span>Exchange rate</button>
+    <button class="tab" data-tab="wages"><span class="tab-icon">💵</span>Wages</button>
+    <button class="tab" data-tab="nightlights"><span class="tab-icon">🌃</span>Nightlights</button>
+    <button class="tab" data-tab="agri"><span class="tab-icon">🌾</span>Agriculture</button>
+    <button class="tab" data-tab="ports"><span class="tab-icon">⚓</span>Ports</button>
+  </div>
+
+  <!-- FOOD -->
+  <div class="tab-section active" id="tab-food">
+    <div class="panel">
+      <div class="panel-title">Food basket evolution</div>
+      <div class="panel-subtitle">WFP VAM, 73 markets, 13-item national basket. Two indices on the same chart: with bread (red) and without bread (amber). The gap is the December 2024 bread subsidy reset — a one-time level shift. The dashed blue line is the bread-excluded basket in USD terms.</div>
+      <div class="chart-wrap tall"><canvas id="chart-basket"></canvas></div>
+      <div class="analysis" style="--analysis-accent: var(--red)">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>The basket bottomed in mid-2025</strong> at the FX trough and has climbed steadily since, in both SYP and USD terms. From April 2025 to April 2026 the basket excluding bread rose 27% in SYP and 12% in USD. The dual-currency increase is the analytically important point: the FAO global Food Price Index moved only modestly in this window, which means the 12% USD basket increase is too large to be explained by world prices passing through, and the SYP increase is too large to be explained by FX depreciation alone (the SYP weakened only 13% YoY).</p>
+        <p>The implication is that <strong>the price increase is now driven by domestic factors</strong> — vendor margins, post-subsidy adjustments, weak supply-side response — rather than by external pass-through or currency movements. This is a meaningful diagnostic shift from the earlier post-transition period when nearly all food-price movement could be attributed to FX.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Item-level changes — April 2025 to April 2026 (SYP)</div>
+      <div class="panel-subtitle">Every item in the basket plus shop bread for contrast.</div>
+      <div class="chart-wrap tall"><canvas id="chart-items"></canvas></div>
+      <div class="analysis" style="--analysis-accent: var(--amber)">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>Breadth is the diagnostic point.</strong> Eleven of fourteen tracked items are up year-on-year. Tomatoes (+98%, partly seasonal) and potatoes (+45%) lead the increases; oil (+31%), meat (+24%), onions (+24%) and lentils (+23%) form a substantial second tier. Sugar and wheat flour are essentially flat. Only shop bread (−13%) and bakery bread (+13%, mild given subsidy reset) sit outside the inflation pattern.</p>
+        <p>The fact that staples and proteins are both rising suggests the inflation is <strong>generalised across the consumption basket rather than concentrated in a few volatile items</strong>. For households at the bottom of the income distribution, this is the most consequential signal in the data: when inflation is broad-based, substitution within the basket cannot offset the price impact, which is what targeted social protection has to address.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Bakery bread vs shop bread</div>
+      <div class="panel-subtitle">Median SYP per 1.1 kg loaf. Same source, same 73 markets. The divergence in late 2024 isolates the subsidy reform from underlying price dynamics.</div>
+      <div class="chart-wrap tall"><canvas id="chart-bread"></canvas></div>
+      <div class="analysis">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>Two distinct trajectories.</strong> Bakery bread was held at 250–608 SYP per 1.1 kg loaf through 2024 by the subsidy regime. The December 2024 reform took it to ~2,400, then drifted to ~4,500 across 2025 — visible as a sharp step in the red line. Shop (commercial) bread was always at market prices and has actually fallen 13% YoY as the SYP appreciated, visible as the green line ticking down through 2025.</p>
+        <p>The "+640%" headline figure (Nov 2024 → April 2026) is mathematically real but is structurally a <strong>one-time policy reset, not ongoing inflation</strong>. The 13% YoY April-to-April change is the right read on current bread inflation. For the social-protection ask, the framing should be compensation for a level shift on a staple — not an attempt to fight an inflation trajectory that has already largely played out.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXCHANGE RATE -->
+  <div class="tab-section" id="tab-fx">
+    <div class="panel">
+      <div class="panel-title">USD/SYP parallel rate</div>
+      <div class="panel-subtitle">Monthly median of unofficial rate (WFP-reported). Three phases visible: sharp appreciation Dec 2024 to June 2025, gradual retracement through end-2025, steeper retracement in early 2026.</div>
+      <div class="chart-wrap tall"><canvas id="chart-fx"></canvas></div>
+      <div class="analysis">
+        <div class="analysis-label">Analysis</div>
+        <p>Three phases are visible in the post-transition currency cycle. <strong>Phase 1 (Dec 2024 – June 2025): sharp appreciation</strong> from 14,963 to 9,588 SYP/USD — a 36% strengthening, driven by confidence inflows, sanctions easing, and reduced regime-related capital flight. <strong>Phase 2 (June – December 2025): gradual retracement</strong> back to the 11,500–12,000 band as the import bill from reconstruction reasserted itself. <strong>Phase 3 (early 2026): steeper retracement</strong> to the current 12,300–13,000 range.</p>
+        <p>The rate has settled in a band well below the November 2024 peak (still 18% stronger) but materially weaker than the mid-2025 trough. <strong>Volatility (CV) is now around 5× pre-transition levels</strong>, characteristic of a market in price discovery rather than crisis. The most defensible interpretation is that the SYP is finding a new equilibrium consistent with reconstruction-era trade flows — not failing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAGES -->
+  <div class="tab-section" id="tab-wages">
+    <div class="panel">
+      <div class="panel-title">Unskilled monthly wage in USD</div>
+      <div class="panel-subtitle">Median across 73 markets, converted to USD using the WFP-reported parallel exchange rate, scaled to 22 working days per month. Showing wages in USD strips out currency-driven nominal change and leaves the real purchasing-power signal.</div>
+      <div class="chart-wrap tall"><canvas id="chart-wage"></canvas></div>
+      <div class="analysis" style="--analysis-accent: var(--green)">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>The real gain is small but genuine.</strong> Monthly wage in USD terms rose from $78 in April 2025 to $98 in April 2026 — a 26% real gain. The +42% nominal SYP figure (38,616 → 55,000 SYP/day) overstates the improvement: roughly 16 percentage points of that headline is simply offsetting the 13% SYP depreciation. The USD line shown here is much smoother than the SYP line would be, because most of the apparent SYP wage volatility is currency noise rather than real-wage volatility.</p>
+        <p>Through 2025 the USD wage oscillated between $87 and $109; in 2026 it has settled around $100. The reconstruction-adjacent labour market — particularly construction, portering and informal services — is tightening, but the absolute gain at the bottom remains modest: <strong>roughly $20/month in real terms.</strong> When set against the +12% USD basket inflation, real wage growth is only marginally ahead of food inflation. This margin is fragile and worth tracking monthly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIGHTLIGHTS -->
+  <div class="tab-section" id="tab-nightlights">
+    <div class="panel">
+      <div class="panel-title">Nightlights radiance — VIIRS Black Marble</div>
+      <div class="panel-subtitle">Mean radiance over Syria, monthly. NASA VIIRS Day/Night Band. Nightlights are widely used as a satellite-derived, high-frequency proxy for urban economic activity, electrification, and population concentration. They are independent of any administrative reporting.</div>
+      <div class="chart-wrap tall"><canvas id="chart-radiance"></canvas></div>
+      <div class="analysis" style="--analysis-accent: var(--green)">
+        <div class="analysis-label">Analysis</div>
+        <p>The post-transition period sits <strong>visibly above the 2019–2024 plateau</strong>, with a particularly sharp peak in mid-2025 corresponding to the FX appreciation phase. The April 2026 reading of 0.065 is 3% above April 2025; the full post-transition average is 9% above the pre-transition baseline. Because nightlights capture electrification, urban density and active commercial infrastructure independently of any administrative reporting, the rise is robust to measurement concerns that affect official statistics.</p>
+        <p>This is the <strong>cleanest piece of independent evidence we have that the recovery in economic activity is real</strong>, not a statistical artifact of FX movements or a reporting effect. Because it is open-data, satellite-derived, and politically neutral, it is the indicator most useful when speaking with donors, IFIs, and reconstruction-finance interlocutors who may discount Syrian-government statistics.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGRICULTURE -->
+  <div class="tab-section" id="tab-agri">
+    <div class="panel">
+      <div class="panel-title">NDVI — vegetation/agricultural activity</div>
+      <div class="panel-subtitle">Normalised Difference Vegetation Index from MODIS. Monthly mean over Syria. NDVI captures the agricultural production cycle: peaks in March–April reflect winter-crop greenery; troughs in summer reflect post-harvest dry conditions.</div>
+      <div class="chart-wrap tall"><canvas id="chart-ndvi"></canvas></div>
+      <div class="analysis" style="--analysis-accent: var(--amber)">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>Recovery from a depressed base.</strong> March 2026 NDVI reads 0.27 — a strong 56% above March 2025's 0.17. The headline appears very positive but needs to be read in context: <strong>March 2024 was 0.31</strong>, meaning the March 2025 figure was an unusually poor agricultural year — likely the combined effect of drought conditions and disruption to sowing operations during the transition itself.</p>
+        <p>The 2026 reading is therefore <strong>a meaningful recovery but not yet a return to pre-transition trend</strong>. Agricultural conditions are clearly improving, but the wheat-belt north-east and rain-fed areas have not fully normalised, and food-security implications remain. April 2026 NDVI is not yet available — MODIS NDVI has a roughly one-month publication lag — so the next data refresh in early June will be informative for whether the recovery is consolidating.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTS -->
+  <div class="tab-section" id="tab-ports">
+    <div class="caveat">
+      <strong>Methodology note:</strong> the data measures vessel deadweight tonnage (DWT) — the carrying capacity of ships arriving at and departing from the port. <strong>It is not a measure of cargo unloaded.</strong> A high DWT figure means large ships are visiting Syrian ports; it does not directly indicate goods imported. For actual import/export volumes, customs data is needed.
+    </div>
+    <div class="panel">
+      <div class="panel-title">Tartus + Latakia combined — monthly DWT</div>
+      <div class="panel-subtitle">Total daily vessel DWT at both Syrian commercial ports, aggregated to monthly. Incoming (positive) and outgoing (negative).</div>
+      <div class="chart-wrap tall"><canvas id="chart-port"></canvas></div>
+      <div class="analysis">
+        <div class="analysis-label">Analysis</div>
+        <p><strong>Structural shift in port activity.</strong> From an average of approximately 60,000 DWT/month through 2024 to 593,000 in April 2026 — roughly 10× the pre-transition baseline. On a year-on-year basis (April 2025 → April 2026), incoming vessel capacity rose 379%. The pattern is consistent across the post-transition period rather than a single-month spike, which suggests a durable change in shipping-line behaviour rather than opportunistic vessel routing.</p>
+        <p><strong>Dry bulk dominates the increase</strong> (about 75% of April 2026 inbound DWT), which is consistent with the kinds of reconstruction inputs you would expect — cement, grains, fuel. Container traffic and general cargo are also up but at smaller multiples. The composition signal points clearly toward reconstruction-driven imports, but the data limitation noted above means customs verification would be needed before stating cargo volumes with the same confidence as port-call activity.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="max-width:900px; margin:0 auto;">
+      <strong style="color:var(--t2)">Sources:</strong> WFP Syria VAM (food prices, unskilled wage, parallel exchange rate — 73 markets); Tartus + Latakia port-call data (vessel DWT, daily, 2019–April 2026); NASA VIIRS Black Marble (nightlights radiance); MODIS NDVI (vegetation index).
+    </div>
+    <div style="margin-top:8px;">UN RCO Damascus  ·  Senior Economist  ·  Salim Araji, Ph.D.  ·  Internal — for RC briefing</div>
+  </footer>
+</main>
+
+<script>
+let DATA;
+const TRANSITION = '2024-12-08';
+const APR25 = '2025-04-01';
+const APR26 = '2026-04-01';
+const GRID = 'rgba(35,63,97,0.5)';
+const TXT = '#A8BACE';
+const C = { un:'#009EDB', deep:'#1E4C7A', green:'#2ECC71', red:'#E74C3C', amber:'#F39C12', grey:'#7A8FA8', purple:'#9B59B6' };
+
+Chart.defaults.color = TXT;
+Chart.defaults.borderColor = GRID;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+Chart.defaults.font.size = 11;
+
+const baseScales = {
+  x: { type: 'time', time: { unit: 'year' }, grid: { color: GRID }, ticks: { color: TXT } },
+  y: { grid: { color: GRID }, ticks: { color: TXT } }
+};
+const baseOpts = {
+  responsive: true, maintainAspectRatio: false,
+  interaction: { mode: 'index', intersect: false },
+  plugins: {
+    legend: { labels: { color: TXT, usePointStyle: true, pointStyle: 'circle', boxWidth: 8, padding: 12 }, position: 'top', align: 'end' },
+    tooltip: { backgroundColor: 'rgba(10,22,40,0.95)', titleColor: '#E8EEF6', bodyColor: '#A8BACE',
+      borderColor: C.un, borderWidth: 1, padding: 10 }
+  }
+};
+function transAnno(label='Transition · Dec 2024') {
+  return { type:'line', xMin: TRANSITION, xMax: TRANSITION, borderColor: C.amber, borderWidth: 1.5, borderDash: [6,4],
+    label: { display: true, content: label, position: 'start', color: C.amber,
+      backgroundColor: 'rgba(15,31,53,0.9)', padding: 5, font: { size: 9, weight: '600' } } };
+}
+function aprAnno(yr) {
+  return { type:'line', xMin: yr, xMax: yr, borderColor: C.un, borderWidth: 1.5, borderDash: [3,3],
+    label: { display: true, content: yr.slice(0,7), position: 'end', color: C.un,
+      backgroundColor: 'rgba(15,31,53,0.9)', padding: 4, font: { size: 9, weight: '600' } } };
+}
+
+// Lazy chart renderers — created on first tab show to avoid sizing issues
+const renderers = {
+  food: () => {
+    new Chart(document.getElementById('chart-basket'), {
+      type: 'line',
+      data: { datasets: [
+        { label: 'Basket incl. bread — SYP', data: DATA.basket_ts.filter(d=>'syp_full' in d).map(d=>({x:d.d, y:d.syp_full})),
+          borderColor: C.red, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+        { label: 'Basket excl. bread — SYP', data: DATA.basket_ts.filter(d=>'syp_nb' in d).map(d=>({x:d.d, y:d.syp_nb})),
+          borderColor: C.amber, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+        { label: 'Basket excl. bread — USD', data: DATA.basket_ts.filter(d=>'usd_nb' in d).map(d=>({x:d.d, y:d.usd_nb})),
+          borderColor: C.un, borderWidth: 2, borderDash: [4,3], pointRadius: 0, tension: 0.3 }
+      ] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(0) } } },
+        scales: { ...baseScales, y: { ...baseScales.y, title: { display: true, text: 'Index (Jan 2023 = 100)', color: TXT } } } }
+    });
+    const items = [...DATA.items_yoy].sort((a,b) => a.pct - b.pct);
+    new Chart(document.getElementById('chart-items'), {
+      type: 'bar',
+      data: { labels: items.map(i => i.name),
+        datasets: [{ data: items.map(i => i.pct),
+          backgroundColor: items.map(i => i.pct > 50 ? C.red+'cc' : i.pct > 10 ? C.amber+'cc' : i.pct >= 0 ? '#9b9b9bcc' : C.green+'cc'),
+          borderColor: items.map(i => i.pct > 50 ? C.red : i.pct > 10 ? C.amber : i.pct >= 0 ? '#9b9b9b' : C.green),
+          borderWidth: 1, borderRadius: 4 }] },
+      options: { ...baseOpts, indexAxis: 'y',
+        plugins: { ...baseOpts.plugins, legend: { display: false },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + (ctx.parsed.x>=0?'+':'') + ctx.parsed.x.toFixed(0) + '% YoY (SYP)' } } },
+        scales: {
+          x: { ticks: { color: TXT, callback: v => (v>=0?'+':'')+v+'%' }, grid: { color: GRID } },
+          y: { grid: { display: false }, ticks: { color: TXT, font: { size: 11 } } } } }
+    });
+    new Chart(document.getElementById('chart-bread'), {
+      type: 'line',
+      data: { datasets: [
+        { label: 'Bakery bread (subsidized → reset Dec 2024)',
+          data: DATA.bakery_ts.map(d=>({x:d.d, y:d.v})),
+          borderColor: C.red, borderWidth: 2.5, pointRadius: 0, tension: 0.25 },
+        { label: 'Shop bread (always commercial)',
+          data: DATA.shop_ts.map(d=>({x:d.d, y:d.v})),
+          borderColor: C.green, borderWidth: 2.5, pointRadius: 0, tension: 0.25 }
+      ] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno('Subsidy reset · Dec 2024'), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.dataset.label.split(' (')[0] + ': ' + ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits:0}) + ' SYP/1.1kg' } } },
+        scales: { ...baseScales, y: { ...baseScales.y, title: { display: true, text: 'SYP per 1.1kg loaf', color: TXT } } } }
+    });
+  },
+  fx: () => {
+    new Chart(document.getElementById('chart-fx'), {
+      type: 'line',
+      data: { datasets: [{ label: 'USD/SYP (parallel)', data: DATA.fx_ts.map(d=>({x:d.d, y:d.v})),
+        borderColor: C.deep, backgroundColor: 'rgba(0,158,219,0.12)',
+        borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString() + ' SYP/USD' } } },
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toLocaleString() } } } }
+    });
+  },
+  wages: () => {
+    new Chart(document.getElementById('chart-wage'), {
+      type: 'line',
+      data: { datasets: [{ label: 'Unskilled monthly wage (USD)', data: DATA.wage_ts_usd.map(d=>({x:d.d, y:d.v})),
+        borderColor: C.green, backgroundColor: 'rgba(46,204,113,0.12)',
+        borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' $' + ctx.parsed.y.toFixed(0) + '/month' } } },
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => '$' + v }, title: { display: true, text: 'USD per month (22 working days)', color: TXT } } } }
+    });
+  },
+  nightlights: () => {
+    new Chart(document.getElementById('chart-radiance'), {
+      type: 'line',
+      data: { datasets: [{ label: 'VIIRS radiance (nightlights)', data: DATA.radiance_ts.map(d=>({x:d.d, y:d.v})),
+        borderColor: C.un, backgroundColor: 'rgba(0,158,219,0.12)',
+        borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.parsed.y.toFixed(4) + ' radiance' } } },
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(3) }, title: { display: true, text: 'Mean monthly radiance', color: TXT } } } }
+    });
+  },
+  agri: () => {
+    new Chart(document.getElementById('chart-ndvi'), {
+      type: 'line',
+      data: { datasets: [{ label: 'NDVI (vegetation index)', data: DATA.ndvi_ts.map(d=>({x:d.d, y:d.v})),
+        borderColor: C.purple, backgroundColor: 'rgba(155,89,182,0.12)',
+        borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.parsed.y.toFixed(3) + ' NDVI' } } },
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(2) }, title: { display: true, text: 'Mean monthly NDVI', color: TXT } } } }
+    });
+  },
+  ports: () => {
+    new Chart(document.getElementById('chart-port'), {
+      type: 'bar',
+      data: { datasets: [
+        { label: 'Incoming DWT', data: DATA.port_ts.map(d=>({x:d.d, y:d.inc_total/1000})),
+          backgroundColor: C.un + 'cc', borderColor: C.un, borderWidth: 1 },
+        { label: 'Outgoing DWT', data: DATA.port_ts.map(d=>({x:d.d, y:-d.out_total/1000})),
+          backgroundColor: C.amber + 'cc', borderColor: C.amber, borderWidth: 1 }
+      ] },
+      options: { ...baseOpts,
+        plugins: { ...baseOpts.plugins,
+          annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
+          tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + Math.abs(ctx.parsed.y).toFixed(0) + 'k DWT' } } },
+        scales: {
+          x: { type:'time', time:{ unit:'year' }, stacked:true, grid:{ color:GRID }, ticks:{ color:TXT } },
+          y: { ticks:{ color:TXT, callback:v=>Math.abs(v)+'k' }, grid:{ color:GRID } } } }
+    });
+  }
+};
+
+const renderedTabs = new Set();
+function showTab(tabId) {
+  if (!renderedTabs.has(tabId) && renderers[tabId]) {
+    renderers[tabId]();
+    renderedTabs.add(tabId);
+  }
+}
+
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tab-section').forEach(s =>
+      s.classList.toggle('active', s.id === 'tab-' + target));
+    showTab(target);
+  });
+});
+
+// Load data and render initially-active tab
+fetch('data/processed.json')
+  .then(r => {
+    if (!r.ok) throw new Error('Failed to load data: HTTP ' + r.status);
+    return r.json();
+  })
+  .then(data => {
+    DATA = data;
+    document.getElementById('data-status').textContent =
+      'Built ' + (data.meta && data.meta.built_at ? data.meta.built_at.slice(0,10) : 'unknown');
+    showTab('food');
+  })
+  .catch(err => {
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div style="background:#7a1f1f; color:white; padding:18px 32px; font-family:sans-serif;">' +
+      '<strong>Error loading data:</strong> ' + err.message +
+      '<br><small>If viewing locally via file://, run a local server instead: ' +
+      '<code style="background:rgba(255,255,255,0.15); padding:2px 6px; border-radius:3px;">python3 -m http.server 8000</code></small>' +
+      '</div>');
+    console.error(err);
+  });
+</script>
+</body>
+</html>
