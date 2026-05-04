@@ -1,0 +1,20 @@
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local data drafts
+*.csv.bak
+*.xlsx.tmp
+data-drafts/
+
+# Editor backups
+*.bak
+*.orig
