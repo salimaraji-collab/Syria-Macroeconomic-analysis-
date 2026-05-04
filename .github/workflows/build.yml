@@ -1,0 +1,64 @@
+name: Build and deploy dashboard
+
+# Triggers: every push to main, plus manual via Actions tab
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/raw/**'   # data file change
+      - 'build.py'      # pipeline change
+      - 'index.html'    # dashboard change
+      - '.github/workflows/build.yml'
+  workflow_dispatch:    # manual trigger button
+
+# GitHub Pages deployment permissions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one deployment at a time (no race conditions if two pushes land back-to-back)
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl
+
+      - name: Run build pipeline
+        run: python build.py
+
+      - name: Verify processed.json exists
+        run: |
+          test -f data/processed.json || (echo "✗ build.py did not produce data/processed.json"; exit 1)
+          echo "✓ Built $(stat -c%s data/processed.json) bytes"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload the whole repo so index.html can fetch data/processed.json
+          path: '.'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
