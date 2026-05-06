@@ -1,0 +1,33 @@
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local previews / drafts
+data/raw/*.bak
+data/raw/*.tmp
+data/raw/*~
+*.orig
+
+# Don't commit raw data drafts that aren't ready
+data/raw/_drafts/
+
+# Note: data/processed.json IS committed because it's the artifact GitHub
+# Pages serves directly. The CI rebuilds it on every push, but having a
+# committed copy means anyone cloning the repo can preview without running
+# build.py first.
