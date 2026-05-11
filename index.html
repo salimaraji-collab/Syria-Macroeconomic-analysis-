@@ -3,576 +3,749 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Syria — State of the Economy, April 2026</title>
+<title>Syria · State of the Economy — April 2026</title>
+<meta name="description" content="Internal economic briefing for the UN Resident Coordinator, Syria. April 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
-  /* ============================================================
-     EDITORIAL MAGAZINE — design system
-     Type stack: Playfair Display (display) + Source Serif 4 (body) + JetBrains Mono (labels)
-     Per UI-UX-Pro-Max "Minimalist Monochrome Editorial" pairing
-     ============================================================ */
+  /* ====================================================================
+     UN BRIEF — LIGHT INSTITUTIONAL
+     One sans family system (IBM Plex Sans + IBM Plex Mono).
+     UN navy + UN flag blue on a cool off-white surface.
+     ==================================================================== */
   :root {
-    /* Paper / ink */
-    --paper:   #F7F4ED;    /* warm cream base */
-    --paper-2: #EFEBDF;    /* secondary surface */
-    --paper-3: #E5DFCE;    /* tertiary, dividers */
-    --ink:     #1A1815;    /* deep ink, near-black */
-    --ink-2:   #3A352E;    /* secondary text */
-    --ink-3:   #6B645A;    /* muted */
-    --ink-4:   #9C9588;    /* labels, captions */
-    --rule:    #DDD7C5;    /* hairlines */
+    /* Surfaces */
+    --bg:        #F7F9FC;   /* page — cool off-white */
+    --bg-2:      #FFFFFF;   /* cards, elevated surfaces */
+    --bg-3:      #EEF2F8;   /* hover, soft tint */
+    --bg-dark:   #0B1E3C;   /* UN deep-navy strip */
 
-    /* Accent + signal */
-    --accent:  #8B6914;    /* deep gold, more restrained than before */
-    --accent-2:#B8860B;    /* secondary gold */
-    --crimson: #8B2820;    /* down/inflation, dignified red */
-    --olive:   #4F5A2E;    /* up/growth, dignified green */
-    --slate:   #2C3E50;    /* neutral data */
+    /* Ink */
+    --ink:       #0B1E3C;   /* primary text — UN deep navy */
+    --ink-2:     #2A3B57;
+    --ink-3:     #56688A;
+    --ink-4:     #8195B0;
+    --ink-5:     #B5C0D0;
+    --ink-on-dark: #FFFFFF;
+    --ink-on-dark-2: #C5D3E8;
 
-    /* Type scale (modular, 1.25 ratio) */
-    --t-12: 0.75rem;     /* 12px - micro labels */
-    --t-14: 0.875rem;    /* 14px - small body */
-    --t-16: 1rem;        /* 16px - body */
-    --t-18: 1.125rem;    /* 18px - lead body */
-    --t-20: 1.25rem;     /* 20px - sub */
-    --t-24: 1.5rem;      /* 24px */
-    --t-32: 2rem;        /* 32px - h3 */
-    --t-44: 2.75rem;     /* 44px - h2 */
-    --t-72: 4.5rem;      /* 72px - h1 (hero) */
+    /* Hairlines */
+    --rule:      #E2E7EE;
+    --rule-2:    #C9D2DE;
+
+    /* Accent — UN Blue */
+    --accent:     #1565C0;
+    --accent-2:   #418FDE;
+    --accent-3:   #5B92E5;
+    --accent-soft:#E7F0FB;
+
+    /* Signal */
+    --down:      #C8404A;
+    --up:        #2E7D52;
+    --neutral:   #4A6585;
 
     /* Fonts */
-    --display: 'Playfair Display', 'Times New Roman', Georgia, serif;
-    --body:    'Source Serif 4', 'Source Serif Pro', Georgia, serif;
-    --label:   'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    --sans:  'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--paper);
+    background: var(--bg);
     color: var(--ink);
-    font-family: var(--body);
-    font-size: var(--t-16);
-    line-height: 1.65;
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  ::selection { background: var(--accent); color: var(--paper); }
+  ::selection { background: var(--accent); color: #fff; }
 
-  /* paper texture for warmth — subtle noise */
-  body::before {
-    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.05 0 0 0 0 0.04 0 0 0 0 0.02 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    opacity: 0.5;
+  /* ====================================================================
+     TOP METADATA STRIP
+     ==================================================================== */
+  .meta-strip {
+    background: var(--bg-dark);
+    color: var(--ink-on-dark);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  main, header, footer { position: relative; z-index: 1; }
-
-  /* ============================================================
-     MASTHEAD — newspaper-style
-     ============================================================ */
-  .masthead {
-    border-bottom: 3px double var(--ink);
-    padding: 22px 0 18px 0;
-  }
-  .masthead-inner {
-    max-width: 1200px; margin: 0 auto; padding: 0 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 20px;
-  }
-  .nameplate {
-    font-family: var(--display);
-    font-size: var(--t-20);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--ink);
-    line-height: 1.1;
-  }
-  .nameplate em { font-style: italic; font-weight: 400; color: var(--ink-3); }
-  .nameplate-sub {
-    font-family: var(--label);
-    font-size: 10.5px; font-weight: 500;
-    color: var(--ink-4); letter-spacing: 2px; text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .issue-meta {
-    font-family: var(--label);
-    font-size: 11px; font-weight: 500;
-    color: var(--ink-3); letter-spacing: 2.5px; text-transform: uppercase;
-    text-align: right; line-height: 1.5;
-  }
-  .issue-meta strong { color: var(--ink); font-weight: 600; }
-
-  /* ============================================================
-     HERO — magazine cover
-     ============================================================ */
-  .hero {
+  .meta-strip-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 48px 60px 48px;
-    border-bottom: 1px solid var(--rule);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-  .kicker {
-    font-family: var(--label);
-    font-size: 11px; font-weight: 600;
-    color: var(--accent); letter-spacing: 3.5px; text-transform: uppercase;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .kicker::before, .kicker::after {
-    content: ""; flex: 0 0 32px; height: 1px; background: var(--accent);
-    opacity: 0.6;
-  }
-  .kicker::after { display: none; }
-
-  .hero h1 {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(42px, 6.5vw, 76px);
-    line-height: 1.02; letter-spacing: -2px;
-    color: var(--ink);
-    max-width: 16ch;
-  }
-  .hero h1 em {
-    font-style: italic;
-    font-weight: 500;
-    color: var(--accent);
-  }
-  .standfirst {
-    font-family: var(--display);
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(20px, 2.2vw, 28px);
-    line-height: 1.45;
-    color: var(--ink-2);
-    max-width: 56ch;
-    border-top: 1px solid var(--rule);
-    padding-top: 28px;
-  }
-  .byline {
-    font-family: var(--label);
-    font-size: var(--t-12); font-weight: 500;
-    color: var(--ink-4); letter-spacing: 2px; text-transform: uppercase;
-    display: flex; gap: 24px; flex-wrap: wrap;
-  }
-  .byline span strong { color: var(--ink-3); font-weight: 600; }
-
-  /* ============================================================
-     HEADLINE FIGURES — newspaper "by the numbers"
-     ============================================================ */
-  .headline-figures {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 56px 48px;
+    padding: 14px 48px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border-bottom: 3px double var(--ink);
+    gap: 28px;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.8px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+  .meta-value {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-on-dark);
+    letter-spacing: -0.1px;
+  }
+  @media (max-width: 720px) {
+    .meta-strip-inner {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 24px;
+      padding: 14px 24px;
+    }
+  }
+
+  /* ====================================================================
+     MASTHEAD
+     ==================================================================== */
+  .masthead { background: var(--bg-2); border-bottom: 1px solid var(--rule); }
+  .masthead-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 48px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+  .seal { width: 44px; height: 44px; color: var(--accent); }
+  .seal svg { width: 100%; height: 100%; display: block; }
+  .nameplate {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--ink);
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+  }
+  .nameplate-mark { color: var(--accent); font-weight: 400; }
+  .nameplate-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .issue-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .issue-stamp {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 9px;
+    letter-spacing: 1.8px;
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+  @media (max-width: 720px) {
+    .masthead-inner { grid-template-columns: auto 1fr; padding: 20px 24px; }
+    .issue-meta { display: none; }
+  }
+
+  /* ====================================================================
+     HERO
+     ==================================================================== */
+  .hero { max-width: 1200px; margin: 0 auto; padding: 72px 48px 64px; }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .kicker::before { content: ""; width: 32px; height: 2px; background: var(--accent); }
+  .hero h1 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: clamp(40px, 5.8vw, 68px);
+    line-height: 1.04;
+    letter-spacing: -2px;
+    color: var(--ink);
+    max-width: 17ch;
+    margin-bottom: 32px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); font-weight: 700; }
+  .standfirst {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(18px, 1.6vw, 21px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 64ch;
+    padding-top: 24px;
+    border-top: 2px solid var(--ink);
+  }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+  @media (max-width: 720px) { .hero { padding: 48px 24px 40px; } }
+
+  /* ====================================================================
+     HEADLINE FIGURES
+     ==================================================================== */
+  .kpi-band {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
   @media (max-width: 800px) {
-    .headline-figures { grid-template-columns: repeat(2, 1fr); }
-    .figure { border-bottom: 1px solid var(--rule); padding-bottom: 24px; }
-    .figure:nth-child(odd) { border-right: 1px solid var(--rule); }
-    .figure:nth-child(even) { padding-left: 28px; padding-right: 0; }
-    .figure:last-child, .figure:nth-last-child(2) { border-bottom: none; }
+    .kpi-band { grid-template-columns: repeat(2, 1fr); padding: 0 24px 32px; gap: 12px; }
   }
   .figure {
-    padding: 8px 32px 8px 0;
-    border-right: 1px solid var(--rule);
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    padding: 28px 24px 24px;
+    position: relative;
+    transition: border-color 0.25s ease, transform 0.25s ease;
   }
-  .figure:last-child { border-right: none; padding-right: 0; }
-  .figure:not(:first-child) { padding-left: 32px; }
+  .figure::before {
+    content: ""; position: absolute; top: 0; left: 0;
+    width: 36px; height: 3px; background: var(--accent);
+  }
+  .figure:hover { border-color: var(--rule-2); transform: translateY(-1px); }
   .figure-num {
-    font-family: var(--display);
-    font-size: clamp(38px, 5vw, 56px);
-    font-weight: 600; line-height: 0.95;
-    color: var(--ink); letter-spacing: -2px;
-    margin-bottom: 12px;
-    display: flex; align-items: baseline; gap: 4px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: clamp(34px, 4.2vw, 48px);
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
   }
-  .figure-num.up { color: var(--olive); }
-  .figure-num.down { color: var(--crimson); }
+  .figure-num.up   { color: var(--up); }
+  .figure-num.down { color: var(--down); }
   .figure-num.warn { color: var(--accent); }
-  .figure-num em { font-style: italic; font-size: 0.55em; font-weight: 400; opacity: 0.5; }
   .figure-label {
-    font-family: var(--label);
-    font-size: 10.5px; font-weight: 600;
-    color: var(--ink-4); letter-spacing: 2.5px; text-transform: uppercase;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
     line-height: 1.5;
   }
   .figure-sub {
-    font-family: var(--body);
-    font-size: 13px; font-style: italic;
-    color: var(--ink-3); margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 6px;
   }
 
-  /* ============================================================
-     CONTAINER + SECTIONS
-     ============================================================ */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 48px;
+  /* ====================================================================
+     CONTAINER
+     ==================================================================== */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* ====================================================================
+     PRIMARY TABS — bold, prominent, filled-on-active
+     ==================================================================== */
+  .primary-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 8px 0 48px;
   }
-  section {
-    padding: 72px 0;
+  .primary-tab {
+    cursor: pointer;
+    background: var(--bg-2);
+    border: 2px solid var(--rule);
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: var(--ink-2);
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    text-align: left;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .primary-tab .primary-tab-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--ink-4);
+    padding: 4px 8px;
+    border: 1px solid var(--rule-2);
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    flex: 0 0 auto;
+  }
+  .primary-tab:hover { border-color: var(--accent-3); color: var(--ink); }
+  .primary-tab:hover .primary-tab-num { color: var(--accent); border-color: var(--accent-3); }
+  .primary-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 18px -8px rgba(21,101,192,0.55);
+  }
+  .primary-tab.active .primary-tab-num {
+    color: #fff;
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+  }
+  @media (max-width: 760px) {
+    .primary-tabs { grid-template-columns: 1fr; gap: 8px; }
+    .primary-tab { padding: 16px 18px; font-size: 15px; }
+  }
+
+  .primary-tab-content { display: none; }
+  .primary-tab-content.active { display: block; animation: fade 0.35s ease; }
+
+  /* ====================================================================
+     SECTION HEADS
+     ==================================================================== */
+  .section { padding: 24px 0 96px; }
+  .section-head {
+    margin-bottom: 56px;
+    padding-bottom: 28px;
     border-bottom: 1px solid var(--rule);
   }
-  section:last-of-type { border-bottom: none; }
+  @media (max-width: 720px) {
+    .section { padding: 16px 0 64px; }
+    .section-head { margin-bottom: 36px; padding-bottom: 22px; }
+  }
   .section-eyebrow {
-    font-family: var(--label);
-    font-size: 11px; font-weight: 600;
-    color: var(--accent); letter-spacing: 3.5px; text-transform: uppercase;
-    margin-bottom: 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
     display: inline-flex; align-items: center; gap: 12px;
   }
-  .section-eyebrow::before {
-    content: ""; width: 24px; height: 1px; background: var(--accent);
-  }
+  .section-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
   .section-title {
-    font-family: var(--display);
+    font-family: var(--sans);
     font-weight: 600;
-    font-size: clamp(32px, 4vw, 46px);
-    line-height: 1.1; letter-spacing: -0.8px;
-    color: var(--ink); margin-bottom: 36px;
-    max-width: 22ch;
+    font-size: clamp(30px, 3.6vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -1.1px;
+    color: var(--ink);
+    max-width: 24ch;
   }
-  .section-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .section-title em { font-style: normal; color: var(--accent); font-weight: 700; }
 
-  /* ============================================================
-     BRIEFING GRID — asymmetric magazine layout
-     ============================================================ */
+  /* ====================================================================
+     BRIEFING GRID
+     ==================================================================== */
   .briefing-grid {
     display: grid;
-    grid-template-columns: 7fr 5fr;   /* asymmetric, per editorial style */
-    gap: 64px;
+    grid-template-columns: 7fr 4fr;
+    gap: 72px;
     align-items: start;
   }
-  @media (max-width: 900px) {
-    .briefing-grid { grid-template-columns: 1fr; gap: 40px; }
-  }
-
-  /* magazine prose with drop cap */
+  @media (max-width: 900px) { .briefing-grid { grid-template-columns: 1fr; gap: 40px; } }
   .briefing-prose {
-    font-family: var(--body);
-    font-size: var(--t-18);
-    line-height: 1.75;
-    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 17.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
   }
-  .briefing-prose p { margin-bottom: 20px; }
+  .briefing-prose p { margin-bottom: 22px; }
   .briefing-prose p:last-child { margin-bottom: 0; }
   .briefing-prose strong { color: var(--ink); font-weight: 600; }
   .briefing-prose p:first-of-type::first-letter {
-    font-family: var(--display);
-    font-size: 5.5em;
+    font-family: var(--sans);
     font-weight: 700;
+    font-size: 4.2em;
     float: left;
-    line-height: 0.85;
-    margin: 0.08em 0.12em 0 0;
+    line-height: 0.88;
+    margin: 0.05em 0.12em 0 -0.04em;
     color: var(--accent);
   }
   .pull-quote {
-    font-family: var(--display);
-    font-style: italic;
+    font-family: var(--sans);
     font-weight: 500;
-    font-size: clamp(22px, 2.4vw, 30px);
+    font-size: clamp(22px, 2.2vw, 28px);
     line-height: 1.35;
     color: var(--ink);
-    margin: 32px 0;
-    padding: 0 0 0 28px;
-    border-left: 3px solid var(--accent);
+    margin: 36px 0;
+    padding: 8px 0 8px 28px;
+    border-left: 4px solid var(--accent);
     max-width: 90%;
+    letter-spacing: -0.4px;
   }
-  .pull-quote::before { content: "“"; color: var(--accent); margin-right: 4px; }
-  .pull-quote::after { content: "”"; color: var(--accent); margin-left: 2px; }
 
-  /* aside — quotable lines */
   .briefing-aside {
-    background: transparent;
-    padding: 0 0 0 32px;
+    padding: 32px 0 0 40px;
     border-left: 1px solid var(--rule);
     position: sticky;
     top: 24px;
   }
   @media (max-width: 900px) {
-    .briefing-aside { padding-left: 0; border-left: none; border-top: 1px solid var(--rule); padding-top: 32px; }
+    .briefing-aside { padding: 36px 0 0; border-left: none; border-top: 1px solid var(--rule); }
   }
   .briefing-aside h3 {
-    font-family: var(--label);
-    font-size: 11px; font-weight: 700;
-    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
     margin-bottom: 24px;
   }
   .pickup-list { list-style: none; }
-  .pickup-list li {
-    padding: 18px 0;
-    border-bottom: 1px solid var(--rule);
-  }
+  .pickup-list li { padding: 20px 0; border-bottom: 1px solid var(--rule); }
   .pickup-list li:first-child { padding-top: 0; }
   .pickup-list li:last-child { border-bottom: none; }
   .pickup-tag {
-    font-family: var(--label);
-    font-size: 10px; font-weight: 600;
-    color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
-    display: block; margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
   }
   .pickup-line {
-    font-family: var(--display);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 17px; line-height: 1.45;
-    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    letter-spacing: -0.1px;
   }
 
-  /* ============================================================
-     FINDINGS — seven-readings layout
-     editorial-list with serif numbers
-     ============================================================ */
+  /* ====================================================================
+     FINDINGS
+     ==================================================================== */
   .findings { display: flex; flex-direction: column; gap: 0; }
   .finding {
     padding: 36px 0;
     border-bottom: 1px solid var(--rule);
     display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 48px;
-    align-items: baseline;
+    grid-template-columns: 200px 1fr;
+    gap: 56px;
+    align-items: start;
   }
   .finding:first-child { padding-top: 0; }
-  .finding:last-child { border-bottom: none; padding-bottom: 0; }
-  @media (max-width: 700px) {
-    .finding { grid-template-columns: 1fr; gap: 8px; }
+  .finding:last-child { border-bottom: none; padding-bottom: 8px; }
+  @media (max-width: 720px) {
+    .finding { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
   }
-  .finding-numbox {
-    text-align: left;
+  .finding-numbox { display: flex; flex-direction: column; gap: 8px; }
+  .finding-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
   }
   .finding-num {
-    font-family: var(--display);
+    font-family: var(--sans);
     font-weight: 600;
-    font-size: clamp(40px, 4.5vw, 56px);
-    line-height: 1; letter-spacing: -2px;
+    font-size: clamp(40px, 4.6vw, 56px);
+    line-height: 1;
+    letter-spacing: -1.8px;
     color: var(--ink);
+    font-variant-numeric: tabular-nums;
   }
-  .finding-num.up { color: var(--olive); }
-  .finding-num.down { color: var(--crimson); }
+  .finding-num.up   { color: var(--up); }
+  .finding-num.down { color: var(--down); }
   .finding-num.warn { color: var(--accent); }
   .finding-num-label {
-    font-family: var(--label);
-    font-size: 9.5px; font-weight: 600;
-    color: var(--ink-4); letter-spacing: 2px; text-transform: uppercase;
-    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-3);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-top: 6px;
   }
   .finding-content h3 {
-    font-family: var(--display);
+    font-family: var(--sans);
     font-weight: 600;
-    font-size: var(--t-24);
+    font-size: 1.5rem;
     line-height: 1.25;
     color: var(--ink);
     margin-bottom: 12px;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.5px;
   }
   .finding-content p {
-    font-family: var(--body);
+    font-family: var(--sans);
+    font-weight: 400;
     font-size: 16px;
     line-height: 1.65;
     color: var(--ink-2);
   }
   .finding-content p strong { color: var(--ink); font-weight: 600; }
 
-  /* ============================================================
-     TABS — quiet, editorial section nav
-     ============================================================ */
+  /* ====================================================================
+     DATA-TRENDS — inner tab strip + charts + analysis
+     ==================================================================== */
   .tabs-bar {
     display: flex;
-    gap: 0;
     flex-wrap: wrap;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
+    gap: 0;
+    border-bottom: 2px solid var(--rule);
     margin-bottom: 48px;
-    padding: 4px 0;
   }
   .tab {
     padding: 16px 22px;
-    font-family: var(--label);
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: 11.5px;
     font-weight: 600;
     color: var(--ink-3);
     cursor: pointer;
     background: transparent;
     border: none;
-    transition: all 0.2s;
-    letter-spacing: 1.5px;
+    transition: color 0.2s ease, background 0.2s ease;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
     position: relative;
   }
   .tab:hover { color: var(--ink); }
   .tab::after {
     content: ""; position: absolute;
-    bottom: -5px; left: 50%; right: 50%;
+    bottom: -2px; left: 50%; right: 50%;
     height: 2px; background: var(--accent);
     transition: all 0.25s ease;
   }
-  .tab.active {
-    color: var(--ink);
-  }
-  .tab.active::after { left: 16px; right: 16px; }
-  .tab-icon { display: inline-block; margin-right: 8px; opacity: 0.7; }
+  .tab.active { color: var(--accent); }
+  .tab.active::after { left: 12px; right: 12px; }
   .tab-section { display: none; }
   .tab-section.active { display: block; animation: fade 0.3s ease; }
-  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-  /* ============================================================
-     CHARTS + ANALYSIS
-     ============================================================ */
-  .panel { margin-bottom: 56px; }
+  .panel { margin-bottom: 64px; }
   .panel:last-child { margin-bottom: 0; }
   .panel-eyebrow {
-    font-family: var(--label);
-    font-size: 10.5px; font-weight: 600;
-    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
     margin-bottom: 10px;
   }
   .panel-title {
-    font-family: var(--display);
+    font-family: var(--sans);
     font-weight: 600;
-    font-size: clamp(22px, 2.2vw, 28px);
+    font-size: clamp(22px, 2vw, 28px);
     line-height: 1.25;
     color: var(--ink);
     margin-bottom: 10px;
-    letter-spacing: -0.4px;
-    max-width: 22ch;
+    letter-spacing: -0.5px;
+    max-width: 26ch;
   }
-  .panel-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .panel-title em { font-style: normal; color: var(--accent); font-weight: 700; }
   .panel-subtitle {
-    font-family: var(--body);
+    font-family: var(--sans);
+    font-weight: 400;
     font-size: 14.5px;
-    font-style: italic;
     color: var(--ink-3);
     margin-bottom: 28px;
     line-height: 1.6;
-    max-width: 68ch;
+    max-width: 72ch;
   }
   .chart-wrap {
     position: relative;
-    height: 380px;
+    height: 400px;
     margin-bottom: 28px;
-    background: rgba(255,255,255,0.4);
+    background: var(--bg-2);
     border: 1px solid var(--rule);
-    padding: 20px;
-    border-radius: 2px;
+    padding: 24px;
   }
-  .chart-wrap.tall { height: 440px; }
+  .chart-wrap.tall { height: 460px; }
+
   .analysis {
     padding: 28px 32px;
-    background: var(--paper-2);
+    background: var(--bg-3);
     border-left: 3px solid var(--accent);
-    font-family: var(--body);
-    font-size: 16px;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 15.5px;
     line-height: 1.7;
     color: var(--ink-2);
   }
   .analysis-label {
-    font-family: var(--label);
-    font-size: 10.5px;
+    font-family: var(--mono);
+    font-size: 10px;
     font-weight: 700;
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 2.5px;
-    margin-bottom: 14px;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .analysis-label::before {
-    content: "§"; font-family: var(--display); font-size: 16px; font-style: italic;
-    color: var(--accent); opacity: 0.7;
+    margin-bottom: 16px;
+    display: inline-block;
   }
   .analysis p { margin-bottom: 14px; }
   .analysis p:last-child { margin-bottom: 0; }
   .analysis strong { color: var(--ink); font-weight: 600; }
 
   .caveat {
-    padding: 18px 24px;
-    background: rgba(139, 105, 20, 0.06);
-    border-left: 2px solid var(--accent);
-    font-family: var(--body);
-    font-style: italic;
+    padding: 20px 24px;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-family: var(--sans);
     font-size: 14.5px;
     line-height: 1.65;
     color: var(--ink-2);
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
-  .caveat strong {
-    font-style: normal;
-    color: var(--ink);
+  .caveat-label {
+    color: var(--accent);
     font-weight: 600;
-    font-family: var(--label);
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     display: block;
     margin-bottom: 6px;
-    color: var(--accent);
   }
+  .caveat strong { color: var(--ink); font-weight: 600; }
 
-  /* ============================================================
-     FOOTER — colophon-style
-     ============================================================ */
+  /* ====================================================================
+     FOOTER
+     ==================================================================== */
   footer {
-    border-top: 3px double var(--ink);
-    padding: 56px 48px 64px 48px;
-    margin-top: 0;
+    background: var(--bg-dark);
+    color: var(--ink-on-dark-2);
+    padding: 64px 48px 56px;
+    margin-top: 56px;
   }
   .footer-inner {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 56px;
   }
-  @media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+  @media (max-width: 800px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    footer { padding: 48px 24px 40px; }
+  }
   .footer-block h4 {
-    font-family: var(--label);
-    font-size: 10.5px; font-weight: 700;
-    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
-    margin-bottom: 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--accent-3);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
   }
   .footer-block p {
-    font-family: var(--body);
+    font-family: var(--sans);
+    font-weight: 400;
     font-size: 14px;
-    line-height: 1.65;
-    color: var(--ink-3);
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
   }
-  .footer-block strong { color: var(--ink-2); font-weight: 600; }
+  .footer-block strong { color: var(--ink-on-dark); font-weight: 500; }
   .colophon {
     grid-column: 1 / -1;
-    border-top: 1px solid var(--rule);
-    padding-top: 24px;
-    font-family: var(--label);
-    font-size: 11px;
-    color: var(--ink-4);
-    letter-spacing: 1.5px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 28px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1.8px;
     text-transform: uppercase;
-    text-align: center;
   }
-  .colophon em { font-family: var(--display); font-style: italic; text-transform: none; letter-spacing: 0; color: var(--ink-3); }
+  .colophon span:first-child { color: rgba(255,255,255,0.65); }
+
+  /* ====================================================================
+     ANIMATIONS
+     ==================================================================== */
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
 
+<!-- ===== TOP METADATA STRIP ===== -->
+<div class="meta-strip">
+  <div class="meta-strip-inner">
+    <div class="meta-item">
+      <span class="meta-label">Prepared by</span>
+      <span class="meta-value">RCO Economist</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Anchor</span>
+      <span class="meta-value">April 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Comparison</span>
+      <span class="meta-value">Year on year</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Status</span>
+      <span class="meta-value">Briefing</span>
+    </div>
+  </div>
+</div>
+
 <!-- ===== MASTHEAD ===== -->
 <header class="masthead">
   <div class="masthead-inner">
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="28" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="30" cy="30" r="20" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="30" y1="2" x2="30" y2="58" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <line x1="2" y1="30" x2="58" y2="30" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <line x1="10" y1="10" x2="50" y2="50" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <line x1="50" y1="10" x2="10" y2="50" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <circle cx="30" cy="30" r="4" fill="currentColor"/>
+      </svg>
+    </div>
     <div class="nameplate">
-      Syria <em>—</em> State of the Economy
-      <div class="nameplate-sub">Office of the Resident Coordinator · Damascus</div>
+      Syria <span class="nameplate-mark">·</span> State of the Economy
+      <div class="nameplate-sub">UN Resident Coordinator's Office — Damascus</div>
     </div>
     <div class="issue-meta">
-      Vol. I &nbsp;·&nbsp; No. 1<br>
-      <strong>April 2026</strong>
+      <span>Vol. I &nbsp;·&nbsp; No. 1 &nbsp;·&nbsp; April 2026</span>
+      <span class="issue-stamp">Internal</span>
     </div>
   </div>
 </header>
@@ -581,262 +754,291 @@
 <section class="hero">
   <div class="kicker">The Economy Brief</div>
   <h1>The recovery has matured into a <em>normalization</em>.</h1>
-  <p class="standfirst">Eighteen months after the political transition, Syria's economy is no longer in the early stabilization phase. The currency has retraced from its mid-2025 peak, food prices are rising in dollar terms for the first time in this cycle, and ports are operating at scale. The single most important question is whether real wages can stay ahead of food inflation.</p>
-  <div class="byline">
-    <span><strong>Prepared by</strong> Senior Economist Office</span>
-    <span><strong>Anchor</strong> April 2026</span>
-    <span><strong>Comparison</strong> Year on year</span>
-    <span><strong>Status</strong> Briefing</span>
-  </div>
+  <p class="standfirst">Eighteen months after the political transition, Syria's economy is no longer in the early stabilization phase. The currency has retraced from its mid-2025 peak, food prices are rising in dollar terms for the first time in this cycle, and ports are operating at scale. <strong>The single most important question</strong> is whether real wages can stay ahead of food inflation.</p>
 </section>
 
 <!-- ===== HEADLINE FIGURES ===== -->
-<section class="headline-figures" id="headline-figures"></section>
+<section class="kpi-band" id="headline-figures"></section>
 
 <main class="container">
 
-  <!-- ===== BRIEFING ===== -->
-  <section>
-    <div class="section-eyebrow">In summary</div>
-    <h2 class="section-title">What April 2026 <em>tells us</em></h2>
+  <!-- ===== PRIMARY TABS ===== -->
+  <nav class="primary-tabs" role="tablist" aria-label="Brief sections">
+    <button class="primary-tab active" data-primary-tab="summary" role="tab" aria-selected="true">
+      <span class="primary-tab-num">I</span>
+      <span>Summary</span>
+    </button>
+    <button class="primary-tab" data-primary-tab="findings" role="tab" aria-selected="false">
+      <span class="primary-tab-num">II</span>
+      <span>Key Findings</span>
+    </button>
+    <button class="primary-tab" data-primary-tab="data" role="tab" aria-selected="false">
+      <span class="primary-tab-num">III</span>
+      <span>Data Trends</span>
+    </button>
+  </nav>
 
-    <div class="briefing-grid">
-      <article class="briefing-prose">
-        <p>The currency has retraced from its mid-2025 appreciation peak and settled around <strong>12,300 to the dollar</strong>. Food prices have begun to rise across most of the basket, <strong>and now in dollar terms as well</strong> — meaning vendors are raising real prices, not just adjusting to a weaker currency.</p>
+  <!-- ===== TAB I: SUMMARY ===== -->
+  <div class="primary-tab-content active" id="primary-summary" role="tabpanel">
+    <section class="section" id="sec-briefing">
+      <div class="section-head">
+        <div class="section-eyebrow">In summary</div>
+        <h2 class="section-title">What April <em>tells us</em></h2>
+      </div>
 
-        <blockquote class="pull-quote">Stabilization has matured into normalization — neither the dividend of mid-2025 nor a return to crisis.</blockquote>
+      <div class="briefing-grid">
+        <article class="briefing-prose">
+          <p>The currency has retraced from its mid-2025 appreciation peak and settled around <strong>12,300 to the dollar</strong>. Food prices have begun to rise across most of the basket, <strong>and now in dollar terms as well</strong> — meaning vendors are raising real prices, not just adjusting to a weaker currency.</p>
 
-        <p>Real wages have improved at the bottom of the income distribution but remain fragile, with the wage gain only marginally ahead of dollar food inflation. Ports are operationally reopened at scale, and remote-sensing indicators show economic activity above pre-transition levels and agricultural conditions recovering from a depressed 2025 base.</p>
+          <blockquote class="pull-quote">Stabilization has matured into normalization — neither the dividend of mid-2025 nor a return to crisis.</blockquote>
 
-        <p>The single most consequential number for this briefing is the <strong>+12% year-on-year food basket inflation in dollar terms</strong>: it tells us inflation is now a domestic story, not a currency one.</p>
-      </article>
+          <p>Real wages have improved at the bottom of the income distribution but remain fragile, with the wage gain only marginally ahead of dollar food inflation. Ports are operationally reopened at scale, and remote-sensing indicators show economic activity above pre-transition levels and agricultural conditions recovering from a depressed 2025 base.</p>
 
-      <aside class="briefing-aside">
-        <h3>Quotable lines</h3>
-        <ul class="pickup-list">
-          <li>
-            <span class="pickup-tag">On inflation</span>
-            <p class="pickup-line">Food inflation has returned, and it is no longer just an FX story.</p>
-          </li>
-          <li>
-            <span class="pickup-tag">On wages</span>
-            <p class="pickup-line">The unskilled monthly wage in dollars has risen from $78 to $98 — meaningful, but only just ahead of food inflation.</p>
-          </li>
-          <li>
-            <span class="pickup-tag">On ports</span>
-            <p class="pickup-line">Vessel traffic at Syrian ports is roughly ten times pre-transition levels — but this is capacity arriving, not yet customs-confirmed cargo.</p>
-          </li>
-          <li>
-            <span class="pickup-tag">On the currency</span>
-            <p class="pickup-line">The pound is finding its sustainable rate, not collapsing back to crisis.</p>
-          </li>
-        </ul>
-      </aside>
-    </div>
-  </section>
+          <p>The single most consequential number for this briefing is the <strong>+12% year-on-year food basket inflation in dollar terms</strong>: it tells us inflation is now a domestic story, not a currency one.</p>
+        </article>
 
-  <!-- ===== KEY FINDINGS ===== -->
-  <section>
-    <div class="section-eyebrow">Key findings</div>
-    <h2 class="section-title"><em>Seven readings</em> of the post-transition economy</h2>
+        <aside class="briefing-aside">
+          <h3>Quotable lines</h3>
+          <ul class="pickup-list">
+            <li>
+              <span class="pickup-tag">On inflation</span>
+              <p class="pickup-line">Food inflation has returned, and it is no longer just an FX story.</p>
+            </li>
+            <li>
+              <span class="pickup-tag">On wages</span>
+              <p class="pickup-line">The unskilled monthly wage in dollars has risen from $78 to $98 — meaningful, but only just ahead of food inflation.</p>
+            </li>
+            <li>
+              <span class="pickup-tag">On ports</span>
+              <p class="pickup-line">Vessel traffic at Syrian ports is roughly ten times pre-transition levels — but this is capacity arriving, not yet customs-confirmed cargo.</p>
+            </li>
+            <li>
+              <span class="pickup-tag">On the currency</span>
+              <p class="pickup-line">The pound is finding its sustainable rate, not collapsing back to crisis.</p>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </div>
 
-    <div class="findings">
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num down">+27%</div>
-          <div class="finding-num-label">Food basket SYP, YoY</div>
+  <!-- ===== TAB II: KEY FINDINGS ===== -->
+  <div class="primary-tab-content" id="primary-findings" role="tabpanel">
+    <section class="section" id="sec-findings">
+      <div class="section-head">
+        <div class="section-eyebrow">Key findings</div>
+        <h2 class="section-title"><em>Seven readings</em> of the post-transition economy</h2>
+      </div>
+
+      <div class="findings">
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 01</div>
+            <div class="finding-num down">+27%</div>
+            <div class="finding-num-label">Food basket SYP · YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>Food inflation has returned</h3>
+            <p>The food basket excluding bread is up 27% in pounds and <strong>12% in dollars</strong> year-on-year. The dollar increase is the analytically important one — it confirms genuine vendor-side inflation, not currency adjustment. Eleven of fourteen tracked items are up.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 02</div>
+            <div class="finding-num up">+26%</div>
+            <div class="finding-num-label">Real wage gain · YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>Real wages have improved — modestly</h3>
+            <p>In dollar terms, the only honest measure of real purchasing power, the unskilled monthly wage rose from <strong>$78 to $98</strong> — a 26% real gain. The headline +42% in pounds overstates the improvement: most of that simply offset the currency depreciation.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 03</div>
+            <div class="finding-num">+13%</div>
+            <div class="finding-num-label">Bakery bread · YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>Bread is no longer the inflation story</h3>
+            <p>Bakery bread rose only 13% year-on-year — modest. The 7× shock from the December 2024 subsidy reset is now in the rear-view mirror. Shop bread, never subsidised, actually <strong>fell 13%</strong>. The right framing is a one-time level shift on the staple, not ongoing bread inflation.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 04</div>
+            <div class="finding-num warn">+13%</div>
+            <div class="finding-num-label">USD / SYP · YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>The pound is retracing toward equilibrium</h3>
+            <p>The currency depreciated 13% year-on-year, settling at <strong>12,300 to the dollar</strong>. It remains 18% stronger than November 2024 — orderly retracement from the appreciation peak, not a return to pre-transition territory. Volatility is roughly five times pre-transition levels.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 05</div>
+            <div class="finding-num up">+379%</div>
+            <div class="finding-num-label">Port DWT · YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>Ports are operating at scale</h3>
+            <p>Vessel deadweight tonnage at Tartus and Latakia rose 379% year-on-year. Shipping companies are routing vessels at scale. <strong>One caveat:</strong> this measures vessel capacity at the port, not goods unloaded — customs data would be needed to convert this signal into firm cargo volumes.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 06</div>
+            <div class="finding-num up">+9%</div>
+            <div class="finding-num-label">Nightlights · post vs pre</div>
+          </div>
+          <div class="finding-content">
+            <h3>Economic activity is rising</h3>
+            <p>Satellite-derived nightlights radiance is 9% above the pre-transition baseline; the April-on-April reading is +3%. As an open-data, politically-neutral measure, this is the <strong>cleanest piece of independent evidence</strong> that the recovery is real.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="finding-numbox">
+            <div class="finding-tag">Finding 07</div>
+            <div class="finding-num warn">+56%</div>
+            <div class="finding-num-label">NDVI · March YoY</div>
+          </div>
+          <div class="finding-content">
+            <h3>Agricultural conditions are recovering — from a poor base</h3>
+            <p>The vegetation index for March 2026 is 56% above March 2025. The headline appears strong but the 2025 figure was an unusually <strong>poor agricultural year</strong>. The 2026 reading is meaningful recovery but does not yet reach pre-transition trend.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== TAB III: DATA TRENDS ===== -->
+  <div class="primary-tab-content" id="primary-data" role="tabpanel">
+    <section class="section" id="sec-evidence">
+      <div class="section-head">
+        <div class="section-eyebrow">Supporting evidence</div>
+        <h2 class="section-title">The data <em>behind the briefing</em></h2>
+      </div>
+
+      <div class="tabs-bar" role="tablist">
+        <button class="tab active" data-tab="food">Food</button>
+        <button class="tab" data-tab="fx">Currency</button>
+        <button class="tab" data-tab="wages">Wages</button>
+        <button class="tab" data-tab="nightlights">Activity</button>
+        <button class="tab" data-tab="agri">Agriculture</button>
+        <button class="tab" data-tab="ports">Ports</button>
+      </div>
+
+      <div class="tab-section active" id="tab-food">
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 01</div>
+          <div class="panel-title">Food basket evolution · <em>two indices</em></div>
+          <div class="panel-subtitle">WFP market data, 73 markets, 13-item national basket. Two indices on the same chart: with bread and without bread. The gap between them is the December 2024 bread subsidy reset, a one-time level shift. The dashed blue line is the bread-excluded basket in dollar terms.</div>
+          <div class="chart-wrap tall"><canvas id="chart-basket"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p><strong>The basket bottomed in mid-2025</strong> at the FX trough and has climbed steadily since, in both pound and dollar terms. From April 2025 to April 2026 the basket excluding bread rose 27% in pounds and 12% in dollars. The dual-currency increase is the analytically important point: world food prices moved only modestly in this window, which means the dollar-basket increase is too large to be explained by global pass-through, and the pound-basket increase is too large to be explained by currency depreciation alone.</p>
+            <p>The implication is that <strong>the price increase is now driven by domestic factors</strong> — vendor margins, post-subsidy adjustments, weak supply-side response — rather than external pass-through. This is a meaningful diagnostic shift from the earlier post-transition period when nearly all food-price movement could be attributed to FX.</p>
+          </div>
         </div>
-        <div class="finding-content">
-          <h3>Food inflation has returned</h3>
-          <p>The food basket excluding bread is up 27% in pounds and <strong>12% in dollars</strong> year-on-year. The dollar increase is the analytically important one — it confirms genuine vendor-side inflation, not currency adjustment. Eleven of fourteen tracked items are up.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num up">+26%</div>
-          <div class="finding-num-label">Real wage gain, YoY</div>
-        </div>
-        <div class="finding-content">
-          <h3>Real wages have improved — modestly</h3>
-          <p>In dollar terms, the only honest measure of real purchasing power, the unskilled monthly wage rose from <strong>$78 to $98</strong> — a 26% real gain. The headline +42% in pounds overstates the improvement: most of that simply offset the currency depreciation.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num">+13%</div>
-          <div class="finding-num-label">Bakery bread, YoY</div>
-        </div>
-        <div class="finding-content">
-          <h3>Bread is no longer the inflation story</h3>
-          <p>Bakery bread rose only 13% year-on-year — modest. The 7× shock from the December 2024 subsidy reset is now in the rear-view mirror. Shop bread, never subsidised, actually <strong>fell 13%</strong>. The right framing is a one-time level shift on the staple, not ongoing bread inflation.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num warn">+13%</div>
-          <div class="finding-num-label">USD/SYP, YoY</div>
-        </div>
-        <div class="finding-content">
-          <h3>The pound is retracing toward equilibrium</h3>
-          <p>The currency depreciated 13% year-on-year, settling at <strong>12,300 to the dollar</strong>. It remains 18% stronger than November 2024 — orderly retracement from the appreciation peak, not a return to pre-transition territory. Volatility is roughly five times pre-transition levels.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num up">+379%</div>
-          <div class="finding-num-label">Port DWT, YoY</div>
-        </div>
-        <div class="finding-content">
-          <h3>Ports are operating at scale</h3>
-          <p>Vessel deadweight tonnage at Tartus and Latakia rose 379% year-on-year. Shipping companies are routing vessels at scale. <strong>One caveat:</strong> this measures vessel capacity at the port, not goods unloaded — customs data would be needed to convert this signal into firm cargo volumes.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num up">+9%</div>
-          <div class="finding-num-label">Nightlights, post vs pre</div>
-        </div>
-        <div class="finding-content">
-          <h3>Economic activity is rising</h3>
-          <p>Satellite-derived nightlights radiance is 9% above the pre-transition baseline; the April-on-April reading is +3%. As an open-data, politically-neutral measure, this is the <strong>cleanest piece of independent evidence</strong> that the recovery is real.</p>
-        </div>
-      </article>
-
-      <article class="finding">
-        <div class="finding-numbox">
-          <div class="finding-num warn">+56%</div>
-          <div class="finding-num-label">NDVI, March YoY</div>
-        </div>
-        <div class="finding-content">
-          <h3>Agricultural conditions are recovering — from a poor base</h3>
-          <p>The vegetation index for March 2026 is 56% above March 2025. The headline appears strong but the 2025 figure was an unusually <strong>poor agricultural year</strong>. The 2026 reading is meaningful recovery but does not yet reach pre-transition trend.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ===== EVIDENCE ===== -->
-  <section>
-    <div class="section-eyebrow">Supporting evidence</div>
-    <h2 class="section-title">The data <em>behind the briefing</em></h2>
-
-    <div class="tabs-bar" role="tablist">
-      <button class="tab active" data-tab="food"><span class="tab-icon">🍞</span>Food</button>
-      <button class="tab" data-tab="fx"><span class="tab-icon">💱</span>Currency</button>
-      <button class="tab" data-tab="wages"><span class="tab-icon">💵</span>Wages</button>
-      <button class="tab" data-tab="nightlights"><span class="tab-icon">🌃</span>Activity</button>
-      <button class="tab" data-tab="agri"><span class="tab-icon">🌾</span>Agriculture</button>
-      <button class="tab" data-tab="ports"><span class="tab-icon">⚓</span>Ports</button>
-    </div>
-
-    <div class="tab-section active" id="tab-food">
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 01</div>
-        <div class="panel-title">Food basket evolution, <em>two indices</em></div>
-        <div class="panel-subtitle">WFP market data, 73 markets, 13-item national basket. Two indices on the same chart: with bread and without bread. The gap between them is the December 2024 bread subsidy reset, a one-time level shift. The dashed blue line is the bread-excluded basket in dollar terms.</div>
-        <div class="chart-wrap tall"><canvas id="chart-basket"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p><strong>The basket bottomed in mid-2025</strong> at the FX trough and has climbed steadily since, in both pound and dollar terms. From April 2025 to April 2026 the basket excluding bread rose 27% in pounds and 12% in dollars. The dual-currency increase is the analytically important point: world food prices moved only modestly in this window, which means the dollar-basket increase is too large to be explained by global pass-through, and the pound-basket increase is too large to be explained by currency depreciation alone.</p>
-          <p>The implication is that <strong>the price increase is now driven by domestic factors</strong> — vendor margins, post-subsidy adjustments, weak supply-side response — rather than external pass-through. This is a meaningful diagnostic shift from the earlier post-transition period when nearly all food-price movement could be attributed to FX.</p>
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 02</div>
+          <div class="panel-title">Item-level changes · <em>April to April</em></div>
+          <div class="panel-subtitle">Every item in the basket, plus shop bread for contrast. Year-on-year change in pounds.</div>
+          <div class="chart-wrap tall"><canvas id="chart-items"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p><strong>Breadth is the diagnostic point.</strong> Eleven of fourteen tracked items are up year-on-year. Tomatoes (+98%, partly seasonal) and potatoes (+45%) lead the increases; oil, meat, onions and lentils form a substantial second tier. Sugar and wheat flour are essentially flat. Only shop bread sits outside the inflation pattern.</p>
+            <p>When inflation is broad-based, substitution within the basket cannot offset the price impact. For households at the bottom of the income distribution, this is the most consequential signal in the data.</p>
+          </div>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 02</div>
-        <div class="panel-title">Item-level changes, <em>April to April</em></div>
-        <div class="panel-subtitle">Every item in the basket, plus shop bread for contrast. Year-on-year change in pounds.</div>
-        <div class="chart-wrap tall"><canvas id="chart-items"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p><strong>Breadth is the diagnostic point.</strong> Eleven of fourteen tracked items are up year-on-year. Tomatoes (+98%, partly seasonal) and potatoes (+45%) lead the increases; oil, meat, onions and lentils form a substantial second tier. Sugar and wheat flour are essentially flat. Only shop bread sits outside the inflation pattern.</p>
-          <p>When inflation is broad-based, substitution within the basket cannot offset the price impact. For households at the bottom of the income distribution, this is the most consequential signal in the data.</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="tab-section" id="tab-fx">
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 03</div>
-        <div class="panel-title">The pound on the <em>parallel market</em></div>
-        <div class="panel-subtitle">Monthly median of the unofficial USD/SYP rate. Three phases visible: sharp appreciation December 2024 to June 2025, gradual retracement through end-2025, steeper retracement in early 2026.</div>
-        <div class="chart-wrap tall"><canvas id="chart-fx"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p>Three distinct phases mark the post-transition currency cycle. <strong>Phase 1 (December 2024 to June 2025): sharp appreciation</strong> from 14,963 to 9,588 — a 36% strengthening, driven by confidence inflows, sanctions easing, and reduced regime-related capital flight. <strong>Phase 2 (June to December 2025): gradual retracement</strong> back to the 11,500–12,000 band as the import bill reasserted itself. <strong>Phase 3 (early 2026): steeper retracement</strong> to the current 12,300–13,000 range.</p>
-          <p>The rate has settled in a band well below the November 2024 peak (still 18% stronger) but materially weaker than the mid-2025 trough. Volatility is now around five times pre-transition levels — characteristic of a market in price discovery, not crisis.</p>
+      <div class="tab-section" id="tab-fx">
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 03</div>
+          <div class="panel-title">The pound on the <em>parallel market</em></div>
+          <div class="panel-subtitle">Monthly median of the unofficial USD/SYP rate. Three phases visible: sharp appreciation December 2024 to June 2025, gradual retracement through end-2025, steeper retracement in early 2026.</div>
+          <div class="chart-wrap tall"><canvas id="chart-fx"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p>Three distinct phases mark the post-transition currency cycle. <strong>Phase 1 (December 2024 to June 2025): sharp appreciation</strong> from 14,963 to 9,588 — a 36% strengthening, driven by confidence inflows, sanctions easing, and reduced regime-related capital flight. <strong>Phase 2 (June to December 2025): gradual retracement</strong> back to the 11,500–12,000 band as the import bill reasserted itself. <strong>Phase 3 (early 2026): steeper retracement</strong> to the current 12,300–13,000 range.</p>
+            <p>The rate has settled in a band well below the November 2024 peak (still 18% stronger) but materially weaker than the mid-2025 trough. Volatility is now around five times pre-transition levels — characteristic of a market in price discovery, not crisis.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="tab-section" id="tab-wages">
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 04</div>
-        <div class="panel-title">The unskilled monthly wage, <em>in dollars</em></div>
-        <div class="panel-subtitle">Median across 73 markets, converted to dollars at the prevailing parallel rate, scaled to 22 working days per month. Showing wages in dollars strips out currency-driven nominal change and leaves the real purchasing-power signal.</div>
-        <div class="chart-wrap tall"><canvas id="chart-wage"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p><strong>The real gain is small but genuine.</strong> Monthly wage in dollar terms rose from $78 in April 2025 to $98 in April 2026 — a 26% real gain. The headline +42% in pounds overstates the improvement: roughly 16 percentage points of that simply offsets the currency depreciation. The dollar line is much smoother than the pound line would be, because most of the apparent volatility is currency noise rather than real-wage volatility.</p>
-          <p>Through 2025 the dollar wage oscillated between $87 and $109; in 2026 it has settled around $100. The reconstruction-adjacent labour market is tightening, but the absolute gain at the bottom remains modest: <strong>roughly $20 per month in real terms.</strong> Set against the +12% dollar food inflation, real wage growth is only marginally ahead of price growth.</p>
+      <div class="tab-section" id="tab-wages">
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 04</div>
+          <div class="panel-title">The unskilled monthly wage · <em>in dollars</em></div>
+          <div class="panel-subtitle">Median across 73 markets, converted to dollars at the prevailing parallel rate, scaled to 22 working days per month. Showing wages in dollars strips out currency-driven nominal change and leaves the real purchasing-power signal.</div>
+          <div class="chart-wrap tall"><canvas id="chart-wage"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p><strong>The real gain is small but genuine.</strong> Monthly wage in dollar terms rose from $78 in April 2025 to $98 in April 2026 — a 26% real gain. The headline +42% in pounds overstates the improvement: roughly 16 percentage points of that simply offsets the currency depreciation. The dollar line is much smoother than the pound line would be, because most of the apparent volatility is currency noise rather than real-wage volatility.</p>
+            <p>Through 2025 the dollar wage oscillated between $87 and $109; in 2026 it has settled around $100. The reconstruction-adjacent labour market is tightening, but the absolute gain at the bottom remains modest: <strong>roughly $20 per month in real terms.</strong> Set against the +12% dollar food inflation, real wage growth is only marginally ahead of price growth.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="tab-section" id="tab-nightlights">
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 05</div>
-        <div class="panel-title">Economic activity, <em>from orbit</em></div>
-        <div class="panel-subtitle">Mean monthly radiance over Syria, NASA Black Marble. Nightlights are widely used as a satellite-derived, high-frequency proxy for urban economic activity, electrification, and population concentration. The signal is independent of any administrative reporting.</div>
-        <div class="chart-wrap tall"><canvas id="chart-radiance"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p>The post-transition period sits <strong>visibly above the 2019–2024 plateau</strong>, with a particularly sharp peak in mid-2025 corresponding to the FX appreciation phase. The April 2026 reading is 3% above April 2025, and the full post-transition average is 9% above the pre-transition baseline. Because nightlights capture activity independently of official statistics, this is the cleanest piece of independent evidence that the recovery is real.</p>
+      <div class="tab-section" id="tab-nightlights">
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 05</div>
+          <div class="panel-title">Economic activity · <em>from orbit</em></div>
+          <div class="panel-subtitle">Mean monthly radiance over Syria, NASA Black Marble. Nightlights are widely used as a satellite-derived, high-frequency proxy for urban economic activity, electrification, and population concentration. The signal is independent of any administrative reporting.</div>
+          <div class="chart-wrap tall"><canvas id="chart-radiance"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p>The post-transition period sits <strong>visibly above the 2019–2024 plateau</strong>, with a particularly sharp peak in mid-2025 corresponding to the FX appreciation phase. The April 2026 reading is 3% above April 2025, and the full post-transition average is 9% above the pre-transition baseline. Because nightlights capture activity independently of official statistics, this is the cleanest piece of independent evidence that the recovery is real.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="tab-section" id="tab-agri">
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 06</div>
-        <div class="panel-title">Agricultural conditions, <em>vegetation index</em></div>
-        <div class="panel-subtitle">Normalised Difference Vegetation Index from MODIS satellite data. Captures the agricultural production cycle: peaks in March–April reflect winter-crop greenery; troughs in summer reflect post-harvest dry conditions.</div>
-        <div class="chart-wrap tall"><canvas id="chart-ndvi"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p><strong>Recovery from a depressed base.</strong> The March 2026 reading of 0.27 is a strong 56% above March 2025. The headline appears very positive, but it needs context: March 2024 was 0.31, meaning the March 2025 figure was an unusually poor agricultural year — likely the combined effect of drought and disruption to sowing operations during the transition itself.</p>
-          <p>The 2026 reading is therefore <strong>a meaningful recovery but not yet a return to pre-transition trend</strong>. Agricultural conditions are clearly improving, but the wheat-belt north-east and rain-fed areas have not fully normalised.</p>
+      <div class="tab-section" id="tab-agri">
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 06</div>
+          <div class="panel-title">Agricultural conditions · <em>vegetation index</em></div>
+          <div class="panel-subtitle">Normalised Difference Vegetation Index from MODIS satellite data. Captures the agricultural production cycle: peaks in March–April reflect winter-crop greenery; troughs in summer reflect post-harvest dry conditions.</div>
+          <div class="chart-wrap tall"><canvas id="chart-ndvi"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p><strong>Recovery from a depressed base.</strong> The March 2026 reading of 0.27 is a strong 56% above March 2025. The headline appears very positive, but it needs context: March 2024 was 0.31, meaning the March 2025 figure was an unusually poor agricultural year — likely the combined effect of drought and disruption to sowing operations during the transition itself.</p>
+            <p>The 2026 reading is therefore <strong>a meaningful recovery but not yet a return to pre-transition trend</strong>. Agricultural conditions are clearly improving, but the wheat-belt north-east and rain-fed areas have not fully normalised.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="tab-section" id="tab-ports">
-      <div class="caveat">
-        <strong>A methodological note</strong>
-        The data measures vessel deadweight tonnage — the carrying capacity of ships arriving and departing. <strong style="display:inline; font-family:inherit; font-size:inherit; letter-spacing:0; text-transform:none; color:var(--ink); margin:0;">It is not a measure of cargo unloaded.</strong> A high figure means large ships are visiting Syrian ports; it does not directly indicate goods imported. For actual import volumes, customs data is needed.
-      </div>
-      <div class="panel">
-        <div class="panel-eyebrow">Figure 07</div>
-        <div class="panel-title">Tartus and Latakia, <em>monthly traffic</em></div>
-        <div class="panel-subtitle">Total daily vessel deadweight tonnage at both Syrian commercial ports, aggregated to monthly. Incoming above the line, outgoing below.</div>
-        <div class="chart-wrap tall"><canvas id="chart-port"></canvas></div>
-        <div class="analysis">
-          <div class="analysis-label">Analysis</div>
-          <p><strong>A structural shift.</strong> From an average of approximately 60,000 DWT per month through 2024 to 593,000 in April 2026 — roughly ten times the pre-transition baseline. On a year-on-year basis, incoming vessel capacity rose 379%. The pattern is consistent across the post-transition period rather than a single-month spike, suggesting a durable change in shipping-line behaviour.</p>
-          <p>Dry bulk dominates the increase, which is consistent with reconstruction inputs — cement, grains, fuel. The composition signal points clearly toward reconstruction-driven imports, but customs verification would be needed to state cargo volumes with the same confidence as port-call activity.</p>
+      <div class="tab-section" id="tab-ports">
+        <div class="caveat">
+          <span class="caveat-label">A methodological note</span>
+          The data measures vessel deadweight tonnage — the carrying capacity of ships arriving and departing. <strong>It is not a measure of cargo unloaded.</strong> A high figure means large ships are visiting Syrian ports; it does not directly indicate goods imported. For actual import volumes, customs data is needed.
+        </div>
+        <div class="panel">
+          <div class="panel-eyebrow">Figure 07</div>
+          <div class="panel-title">Tartus and Latakia · <em>monthly traffic</em></div>
+          <div class="panel-subtitle">Total daily vessel deadweight tonnage at both Syrian commercial ports, aggregated to monthly. Incoming above the line, outgoing below.</div>
+          <div class="chart-wrap tall"><canvas id="chart-port"></canvas></div>
+          <div class="analysis">
+            <div class="analysis-label">Analysis</div>
+            <p><strong>A structural shift.</strong> From an average of approximately 60,000 DWT per month through 2024 to 593,000 in April 2026 — roughly ten times the pre-transition baseline. On a year-on-year basis, incoming vessel capacity rose 379%. The pattern is consistent across the post-transition period rather than a single-month spike, suggesting a durable change in shipping-line behaviour.</p>
+            <p>Dry bulk dominates the increase, which is consistent with reconstruction inputs — cement, grains, fuel. The composition signal points clearly toward reconstruction-driven imports, but customs verification would be needed to state cargo volumes with the same confidence as port-call activity.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
 </main>
 
-<!-- ===== FOOTER / COLOPHON ===== -->
-<footer>
+<!-- ===== FOOTER ===== -->
+<footer id="sec-colophon">
   <div class="footer-inner">
     <div class="footer-block">
       <h4>Sources</h4>
@@ -846,8 +1048,13 @@
       <h4>Notes on method</h4>
       <p>All comparisons are <strong>April 2026 versus April 2025</strong> unless otherwise stated. Wages are converted to dollars at the prevailing parallel rate and scaled to 22 working days per month to leave the real purchasing-power signal. Vessel-traffic figures measure ship capacity at the port, not customs-confirmed cargo volumes.</p>
     </div>
+    <div class="footer-block">
+      <h4>Confidentiality</h4>
+      <p>Internal UN RCO Damascus document. Distribution within the UN Country Team and other agencies on a need-to-know basis. Not for external citation unless explicitly cleared by the Resident Coordinator.</p>
+    </div>
     <div class="colophon">
-      <em>Office of the Resident Coordinator, Damascus</em> &nbsp;·&nbsp; Senior Economist &nbsp;·&nbsp; Internal briefing
+      <span>Office of the Resident Coordinator, Damascus · RCO Economist · Internal briefing</span>
+      <span>Document v.2026.04</span>
     </div>
   </div>
 </footer>
@@ -859,54 +1066,96 @@ const APR26 = '2026-04-01';
 
 let DATA;
 
+// ===== Color tokens — light theme =====
 const C = {
-  ink: '#1A1815', mute: '#6B645A', rule: '#DDD7C5',
-  accent: '#8B6914', accent2: '#B8860B',
-  crimson: '#8B2820', olive: '#4F5A2E', slate: '#2C3E50',
+  ink:     '#0B1E3C',
+  ink2:    '#2A3B57',
+  mute:    '#56688A',
+  mute2:   '#8195B0',
+  rule:    '#E2E7EE',
+  rule2:   '#C9D2DE',
+  bg:      '#F7F9FC',
+  bg2:     '#FFFFFF',
+  accent:  '#1565C0',
+  accent2: '#418FDE',
+  accent3: '#5B92E5',
+  down:    '#C8404A',
+  up:      '#2E7D52',
+  neutral: '#4A6585',
 };
-const RULE = '#DDD7C5';
-const TXT = '#3A352E';
+const RULE = C.rule;
+const TXT  = C.ink2;
+const MUTE = C.mute;
 
 Chart.defaults.color = TXT;
 Chart.defaults.borderColor = RULE;
-Chart.defaults.font.family = "'JetBrains Mono', monospace";
-Chart.defaults.font.size = 11;
+Chart.defaults.font.family = "'IBM Plex Sans', system-ui, sans-serif";
+Chart.defaults.font.size = 11.5;
 
 const baseScales = {
-  x: { type: 'time', time: { unit: 'year' }, grid: { color: RULE, drawBorder: false }, ticks: { color: TXT, font: { family: "'JetBrains Mono'", size: 10.5 } } },
-  y: { grid: { color: RULE, drawBorder: false }, ticks: { color: TXT, font: { family: "'JetBrains Mono'", size: 10.5 } } }
+  x: {
+    type: 'time', time: { unit: 'year' },
+    grid:   { color: RULE, drawBorder: false },
+    border: { color: C.rule2 },
+    ticks:  { color: MUTE, font: { family: "'IBM Plex Mono'", size: 10.5 }, padding: 8 }
+  },
+  y: {
+    grid:   { color: RULE, drawBorder: false },
+    border: { color: C.rule2 },
+    ticks:  { color: MUTE, font: { family: "'IBM Plex Mono'", size: 10.5 }, padding: 8 }
+  }
 };
+
 const baseOpts = {
   responsive: true, maintainAspectRatio: false,
   interaction: { mode: 'index', intersect: false },
   plugins: {
     legend: {
-      labels: { color: TXT, usePointStyle: true, pointStyle: 'line',
-        boxWidth: 24, boxHeight: 2, padding: 16,
-        font: { family: "'Source Serif 4', serif", size: 12, style: 'italic' } },
+      labels: {
+        color: C.ink, usePointStyle: true, pointStyle: 'line',
+        boxWidth: 28, boxHeight: 2, padding: 18,
+        font: { family: "'IBM Plex Sans', sans-serif", size: 12, weight: '500' }
+      },
       position: 'top', align: 'end'
     },
     tooltip: {
-      backgroundColor: 'rgba(26,24,21,0.96)', titleColor: '#F7F4ED', bodyColor: '#DDD7C5',
-      borderColor: 'rgba(139,105,20,0.5)', borderWidth: 1, padding: 14,
-      titleFont: { family: "'Playfair Display', serif", weight: '600', size: 13 },
-      bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
-      cornerRadius: 0
+      backgroundColor: 'rgba(11,30,60,0.97)',
+      titleColor: '#FFFFFF',
+      bodyColor: '#C5D3E8',
+      borderColor: 'rgba(91,146,229,0.4)',
+      borderWidth: 1,
+      padding: 12,
+      titleFont:  { family: "'IBM Plex Sans', sans-serif", weight: '600', size: 13 },
+      bodyFont:   { family: "'IBM Plex Mono', monospace", size: 11 },
+      cornerRadius: 0,
+      caretSize: 6,
+      displayColors: true,
+      boxPadding: 6
     }
   }
 };
 
 function transAnno(label='Transition · Dec 2024') {
-  return { type:'line', xMin: TRANSITION, xMax: TRANSITION, borderColor: C.accent, borderWidth: 1.5, borderDash: [6,4],
-    label: { display: true, content: label, position: 'start', color: C.accent,
-      backgroundColor: 'rgba(247,244,237,0.95)', padding: 6,
-      font: { family: "'JetBrains Mono'", size: 9.5, weight: '600' } } };
+  return {
+    type: 'line', xMin: TRANSITION, xMax: TRANSITION,
+    borderColor: C.accent, borderWidth: 1.5, borderDash: [6,4],
+    label: {
+      display: true, content: label, position: 'start', color: '#FFFFFF',
+      backgroundColor: C.accent, padding: 6,
+      font: { family: "'IBM Plex Mono'", size: 9.5, weight: '600' }
+    }
+  };
 }
 function aprAnno(yr) {
-  return { type:'line', xMin: yr, xMax: yr, borderColor: C.mute, borderWidth: 1, borderDash: [3,3],
-    label: { display: true, content: yr.slice(0,7), position: 'end', color: C.mute,
-      backgroundColor: 'rgba(247,244,237,0.95)', padding: 4,
-      font: { family: "'JetBrains Mono'", size: 9, weight: '500' } } };
+  return {
+    type: 'line', xMin: yr, xMax: yr,
+    borderColor: C.mute2, borderWidth: 1, borderDash: [3,3],
+    label: {
+      display: true, content: yr.slice(0,7), position: 'end', color: C.mute,
+      backgroundColor: 'rgba(247,249,252,0.96)', padding: 4,
+      font: { family: "'IBM Plex Mono'", size: 9, weight: '500' }
+    }
+  };
 }
 
 // ===== Headline figures =====
@@ -914,10 +1163,10 @@ function fmtPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
 function renderHeadlineFigures() {
   const k = DATA.kpis;
   const figs = [
-    { value: fmtPct(k.basket_nb_usd_yoy || 12), label: 'Food inflation (USD)', sub: 'Year on year', cls: 'down' },
-    { value: '$' + (k.wage_apr26_usd_month || 98), label: 'Monthly wage', sub: 'Unskilled, USD', cls: 'up' },
-    { value: (k.fx_apr26 || 12300).toLocaleString(), label: 'Pounds per dollar', sub: 'Parallel rate', cls: 'warn' },
-    { value: fmtPct(k.inc_dwt_yoy || 379), label: 'Port traffic', sub: 'Vessel DWT, YoY', cls: 'up' },
+    { value: fmtPct(k.basket_nb_usd_yoy || 12),       label: 'Food inflation (USD)', sub: 'Year on year',     cls: 'down' },
+    { value: '$' + (k.wage_apr26_usd_month || 98),    label: 'Monthly wage',         sub: 'Unskilled · USD',  cls: 'up' },
+    { value: (k.fx_apr26 || 12300).toLocaleString(),  label: 'Pounds per dollar',    sub: 'Parallel rate',    cls: 'warn' },
+    { value: fmtPct(k.inc_dwt_yoy || 379),            label: 'Port traffic',         sub: 'Vessel DWT · YoY', cls: 'up' },
   ];
   document.getElementById('headline-figures').innerHTML = figs.map(f => `
     <div class="figure">
@@ -928,11 +1177,7 @@ function renderHeadlineFigures() {
   `).join('');
 }
 
-// ===== Chart renderers (per UX-Pro-Max chart guidance) =====
-// - Line charts: differentiate series by line style (solid/dashed/dotted), not color alone
-// - Bar charts: sort descending, show value labels, distinct colors per bar
-// - Time series: 20% fill opacity primary
-
+// ===== Chart renderers =====
 const renderers = {
   food: () => {
     new Chart(document.getElementById('chart-basket'), {
@@ -940,43 +1185,43 @@ const renderers = {
       data: { datasets: [
         { label: 'Basket incl. bread (SYP)',
           data: DATA.basket_ts.filter(d=>'syp_full' in d).map(d=>({x:d.d, y:d.syp_full})),
-          borderColor: C.crimson, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+          borderColor: C.down, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
         { label: 'Basket excl. bread (SYP)',
           data: DATA.basket_ts.filter(d=>'syp_nb' in d).map(d=>({x:d.d, y:d.syp_nb})),
-          borderColor: C.accent, borderWidth: 2, pointRadius: 0, tension: 0.3,
-          borderDash: [8, 4] },  // dashed — accessibility per UX-Pro-Max
+          borderColor: C.accent2, borderWidth: 2, pointRadius: 0, tension: 0.3,
+          borderDash: [8, 4] },
         { label: 'Basket excl. bread (USD)',
           data: DATA.basket_ts.filter(d=>'usd_nb' in d).map(d=>({x:d.d, y:d.usd_nb})),
-          borderColor: C.slate, borderWidth: 1.5, pointRadius: 0, tension: 0.3,
-          borderDash: [2, 3] }  // dotted
+          borderColor: C.neutral, borderWidth: 1.5, pointRadius: 0, tension: 0.3,
+          borderDash: [2, 3] }
       ] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
           annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(0) } } },
-        scales: { ...baseScales, y: { ...baseScales.y, title: { display: true, text: 'Index (Jan 2023 = 100)', color: TXT, font: { family: "'JetBrains Mono'", size: 10, weight: '600' } } } } }
+        scales: { ...baseScales, y: { ...baseScales.y, title: { display: true, text: 'Index (Jan 2023 = 100)', color: MUTE, font: { family: "'IBM Plex Mono'", size: 10, weight: '600' } } } } }
     });
-    const items = [...DATA.items_yoy].sort((a,b) => a.pct - b.pct);  // sort per UX-Pro-Max bar guidance
+    const items = [...DATA.items_yoy].sort((a,b) => a.pct - b.pct);
     new Chart(document.getElementById('chart-items'), {
       type: 'bar',
       data: { labels: items.map(i => i.name),
         datasets: [{ data: items.map(i => i.pct),
-          backgroundColor: items.map(i => i.pct > 50 ? C.crimson+'cc' : i.pct > 10 ? C.accent+'cc' : i.pct >= 0 ? '#9c958899' : C.olive+'cc'),
-          borderColor: items.map(i => i.pct > 50 ? C.crimson : i.pct > 10 ? C.accent : i.pct >= 0 ? '#9c9588' : C.olive),
+          backgroundColor: items.map(i => i.pct > 50 ? C.down+'cc' : i.pct > 10 ? C.accent+'cc' : i.pct >= 0 ? C.mute2+'88' : C.up+'cc'),
+          borderColor: items.map(i => i.pct > 50 ? C.down : i.pct > 10 ? C.accent : i.pct >= 0 ? C.mute2 : C.up),
           borderWidth: 1, borderRadius: 2 }] },
       options: { ...baseOpts, indexAxis: 'y',
         plugins: { ...baseOpts.plugins, legend: { display: false },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + (ctx.parsed.x>=0?'+':'') + ctx.parsed.x.toFixed(0) + '% YoY' } } },
         scales: {
-          x: { ticks: { color: TXT, callback: v => (v>=0?'+':'')+v+'%', font: { family: "'JetBrains Mono'", size: 10.5 } }, grid: { color: RULE } },
-          y: { grid: { display: false }, ticks: { color: TXT, font: { family: "'Source Serif 4'", size: 13 } } } } }
+          x: { ticks: { color: MUTE, callback: v => (v>=0?'+':'')+v+'%', font: { family: "'IBM Plex Mono'", size: 10.5 } }, grid: { color: RULE }, border: { color: C.rule2 } },
+          y: { grid: { display: false }, border: { color: C.rule2 }, ticks: { color: TXT, font: { family: "'IBM Plex Sans'", size: 13 } } } } }
     });
   },
   fx: () => {
     new Chart(document.getElementById('chart-fx'), {
       type: 'line',
       data: { datasets: [{ label: 'USD/SYP (parallel)', data: DATA.fx_ts.map(d=>({x:d.d, y:d.v})),
-        borderColor: C.slate, backgroundColor: 'rgba(44,62,80,0.08)',
+        borderColor: C.accent, backgroundColor: 'rgba(21,101,192,0.10)',
         borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
@@ -989,39 +1234,39 @@ const renderers = {
     new Chart(document.getElementById('chart-wage'), {
       type: 'line',
       data: { datasets: [{ label: 'Unskilled monthly wage (USD)', data: DATA.wage_ts_usd.map(d=>({x:d.d, y:d.v})),
-        borderColor: C.olive, backgroundColor: 'rgba(79,90,46,0.10)',
+        borderColor: C.up, backgroundColor: 'rgba(46,125,82,0.12)',
         borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
           annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' $' + ctx.parsed.y.toFixed(0) + '/month' } } },
-        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => '$' + v }, title: { display: true, text: 'USD per month (22 working days)', color: TXT, font: { family: "'JetBrains Mono'", size: 10, weight: '600' } } } } }
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => '$' + v }, title: { display: true, text: 'USD per month (22 working days)', color: MUTE, font: { family: "'IBM Plex Mono'", size: 10, weight: '600' } } } } }
     });
   },
   nightlights: () => {
     new Chart(document.getElementById('chart-radiance'), {
       type: 'line',
       data: { datasets: [{ label: 'Nightlights radiance', data: DATA.radiance_ts.map(d=>({x:d.d, y:d.v})),
-        borderColor: C.accent, backgroundColor: 'rgba(139,105,20,0.10)',
+        borderColor: C.accent2, backgroundColor: 'rgba(65,143,222,0.12)',
         borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
           annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.parsed.y.toFixed(4) + ' radiance' } } },
-        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(3) }, title: { display: true, text: 'Mean monthly radiance', color: TXT, font: { family: "'JetBrains Mono'", size: 10, weight: '600' } } } } }
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(3) }, title: { display: true, text: 'Mean monthly radiance', color: MUTE, font: { family: "'IBM Plex Mono'", size: 10, weight: '600' } } } } }
     });
   },
   agri: () => {
     new Chart(document.getElementById('chart-ndvi'), {
       type: 'line',
       data: { datasets: [{ label: 'Vegetation index (NDVI)', data: DATA.ndvi_ts.map(d=>({x:d.d, y:d.v})),
-        borderColor: C.olive, backgroundColor: 'rgba(79,90,46,0.12)',
+        borderColor: C.up, backgroundColor: 'rgba(46,125,82,0.13)',
         borderWidth: 2.5, pointRadius: 0, tension: 0.25, fill: true }] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
           annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.parsed.y.toFixed(3) + ' NDVI' } } },
-        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(2) }, title: { display: true, text: 'Mean monthly NDVI', color: TXT, font: { family: "'JetBrains Mono'", size: 10, weight: '600' } } } } }
+        scales: { ...baseScales, y: { ...baseScales.y, ticks: { ...baseScales.y.ticks, callback: v => v.toFixed(2) }, title: { display: true, text: 'Mean monthly NDVI', color: MUTE, font: { family: "'IBM Plex Mono'", size: 10, weight: '600' } } } } }
     });
   },
   ports: () => {
@@ -1029,17 +1274,17 @@ const renderers = {
       type: 'bar',
       data: { datasets: [
         { label: 'Incoming DWT', data: DATA.port_ts.map(d=>({x:d.d, y:d.inc_total/1000})),
-          backgroundColor: C.slate + 'cc', borderColor: C.slate, borderWidth: 1 },
+          backgroundColor: C.accent + 'cc', borderColor: C.accent, borderWidth: 1 },
         { label: 'Outgoing DWT', data: DATA.port_ts.map(d=>({x:d.d, y:-d.out_total/1000})),
-          backgroundColor: C.accent + 'cc', borderColor: C.accent, borderWidth: 1 }
+          backgroundColor: C.neutral + 'cc', borderColor: C.neutral, borderWidth: 1 }
       ] },
       options: { ...baseOpts,
         plugins: { ...baseOpts.plugins,
           annotation: { annotations: { trans: transAnno(), apr25: aprAnno(APR25), apr26: aprAnno(APR26) } },
           tooltip: { ...baseOpts.plugins.tooltip, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + Math.abs(ctx.parsed.y).toFixed(0) + 'k DWT' } } },
         scales: {
-          x: { type:'time', time:{ unit:'year' }, stacked:true, grid:{ color:RULE }, ticks:{ color:TXT } },
-          y: { ticks:{ color:TXT, callback:v=>Math.abs(v)+'k' }, grid:{ color:RULE } } } }
+          x: { type:'time', time:{ unit:'year' }, stacked:true, grid:{ color:RULE }, border:{ color:C.rule2 }, ticks:{ color: MUTE } },
+          y: { ticks:{ color: MUTE, callback:v=>Math.abs(v)+'k' }, grid:{ color:RULE }, border:{ color:C.rule2 } } } }
     });
   }
 };
@@ -1061,9 +1306,41 @@ document.querySelectorAll('.tab').forEach(btn => {
   });
 });
 
+// ===== Primary tab navigation (Summary | Key Findings | Data Trends) =====
+const primaryTabs    = document.querySelectorAll('.primary-tab');
+const primaryPanels  = document.querySelectorAll('.primary-tab-content');
+
+function ensureDataTabRendered() {
+  if (typeof DATA !== 'undefined' && DATA && !renderedTabs.has('food')) {
+    try { showTab('food'); } catch (e) { console.error('showTab failed:', e); }
+  }
+}
+
+primaryTabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.primaryTab;
+    primaryTabs.forEach(b => {
+      const on = (b === btn);
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    primaryPanels.forEach(p => p.classList.toggle('active', p.id === 'primary-' + target));
+    if (target === 'data') {
+      requestAnimationFrame(() => {
+        ensureDataTabRendered();
+        if (window.Chart && Chart.getChart) {
+          document.querySelectorAll('#primary-data canvas').forEach(canvas => {
+            const inst = Chart.getChart(canvas);
+            if (inst) inst.resize();
+          });
+        }
+      });
+    }
+  });
+});
+
 function init() {
   if (typeof Chart === 'undefined') {
-    console.warn('Chart.js not loaded yet, retrying in 200ms');
     setTimeout(init, 200);
     return;
   }
@@ -1075,12 +1352,15 @@ function init() {
     .then(data => {
       DATA = data;
       try { renderHeadlineFigures(); } catch (e) { console.error('renderHeadlineFigures failed:', e); }
-      try { showTab('food'); } catch (e) { console.error('showTab failed:', e); }
+      const dataPanel = document.getElementById('primary-data');
+      if (dataPanel && dataPanel.classList.contains('active')) {
+        ensureDataTabRendered();
+      }
     })
     .catch(err => {
       console.error('Data load failed:', err);
       const el = document.getElementById('headline-figures');
-      if (el) el.innerHTML = '<div style="grid-column:1/-1; padding:24px; font-family:Georgia,serif; color:#8B2820; font-style:italic; text-align:center;">Could not load live data — showing static fallback. (' + err.message + ')</div>';
+      if (el) el.innerHTML = '<div style="grid-column:1/-1; padding:24px; font-family:IBM Plex Sans,sans-serif; color:#C8404A; text-align:center;">Could not load live data — showing static fallback. (' + err.message + ')</div>';
     });
 }
 if (document.readyState === 'loading') {
