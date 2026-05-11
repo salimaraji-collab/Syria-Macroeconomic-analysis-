@@ -1244,10 +1244,10 @@ function fmtPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
 function renderHeadlineFigures() {
   const k = DATA.kpis;
   const figs = [
-    { value: fmtPct(k.basket_nb_usd_yoy || 12),       label: 'Food inflation (USD)', sub: 'Year on year',     cls: 'down' },
-    { value: '$' + (k.wage_apr26_usd_month || 98),    label: 'Monthly wage',         sub: 'Unskilled · USD',  cls: 'up' },
-    { value: (k.fx_apr26 || 12300).toLocaleString(),  label: 'Pounds per dollar',    sub: 'Parallel rate',    cls: 'warn' },
-    { value: fmtPct(k.inc_dwt_yoy || 379),            label: 'Port traffic',         sub: 'Vessel DWT · YoY', cls: 'up' },
+    { value: fmtPct(k.basket_nb_usd_yoy || 12),       label: 'Food inflation (USD)',         sub: 'Year on year · WFP data',     cls: 'down' },
+    { value: '$' + (k.wage_apr26_usd_month || 98),    label: 'Monthly wage',                 sub: 'Unskilled · USD · WFP data',  cls: 'up' },
+    { value: (k.fx_apr26 || 12300).toLocaleString(),  label: 'Syrian pounds per US dollar',  sub: 'Parallel rate',               cls: 'warn' },
+    { value: fmtPct(k.inc_dwt_yoy || 379),            label: 'Trade growth',                 sub: 'Based on port calls',         cls: 'up' },
   ];
   document.getElementById('headline-figures').innerHTML = figs.map(f => `
     <div class="figure">
