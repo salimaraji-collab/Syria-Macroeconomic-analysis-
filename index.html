@@ -515,38 +515,67 @@
      DATA-TRENDS — inner tab strip + charts + analysis
      ==================================================================== */
   .tabs-bar {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     gap: 8px;
     margin-bottom: 48px;
   }
   .tab {
-    padding: 13px 24px;
+    padding: 22px 12px;
     font-family: var(--sans);
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--ink-2);
     cursor: pointer;
     background: var(--bg-2);
     border: 1.5px solid var(--rule-2);
-    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     letter-spacing: -0.1px;
     text-transform: none;
-    position: relative;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .tab-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    flex-shrink: 0;
+    color: var(--accent);
+    transition: color 0.2s ease, transform 0.25s ease;
+  }
+  .tab-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
   }
   .tab:hover {
     color: var(--ink);
     border-color: var(--accent-3);
+    transform: translateY(-1px);
   }
+  .tab:hover .tab-icon { transform: scale(1.08); }
   .tab.active {
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
-    box-shadow: 0 4px 12px -4px rgba(21,101,192,0.4);
+    box-shadow: 0 6px 16px -6px rgba(21,101,192,0.45);
   }
-  @media (max-width: 720px) {
-    .tabs-bar { gap: 6px; }
-    .tab { padding: 11px 18px; font-size: 13.5px; flex: 1 1 calc(50% - 6px); text-align: center; }
+  .tab.active .tab-icon { color: #fff; }
+  @media (max-width: 760px) {
+    .tabs-bar { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .tab { padding: 16px 8px; font-size: 13px; gap: 10px; }
+    .tab-icon { width: 26px; height: 26px; }
+  }
+  @media (max-width: 440px) {
+    .tabs-bar { grid-template-columns: repeat(2, 1fr); }
   }
   .tab-section { display: none; }
   .tab-section.active { display: block; animation: fade 0.3s ease; }
@@ -919,12 +948,72 @@
   <div class="primary-tab-content" id="primary-data" role="tabpanel">
     <section class="section" id="sec-evidence">
       <div class="tabs-bar" role="tablist">
-        <button class="tab active" data-tab="food">Food</button>
-        <button class="tab" data-tab="fx">Currency</button>
-        <button class="tab" data-tab="wages">Wages</button>
-        <button class="tab" data-tab="nightlights">Activity</button>
-        <button class="tab" data-tab="agri">Agriculture</button>
-        <button class="tab" data-tab="ports">Ports</button>
+        <button class="tab active" data-tab="food">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 11h18l-1.7 7.6a2 2 0 0 1-2 1.4H6.7a2 2 0 0 1-2-1.4L3 11Z"/>
+              <path d="M3 11h18"/>
+              <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+            </svg>
+          </span>
+          <span>Food</span>
+        </button>
+        <button class="tab" data-tab="fx">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <circle cx="12" cy="12" r="2.5"/>
+              <path d="M6 10v.01"/>
+              <path d="M6 14v.01"/>
+              <path d="M18 10v.01"/>
+              <path d="M18 14v.01"/>
+            </svg>
+          </span>
+          <span>Currency</span>
+        </button>
+        <button class="tab" data-tab="wages">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 12V8H6a2 2 0 0 1-2-2v0a2 2 0 0 1 2-2h12v4"/>
+              <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/>
+              <path d="M17 14a2 2 0 1 0 0 4h4v-4Z"/>
+            </svg>
+          </span>
+          <span>Wages</span>
+        </button>
+        <button class="tab" data-tab="nightlights">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </span>
+          <span>Activity</span>
+        </button>
+        <button class="tab" data-tab="agri">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 20h10"/>
+              <path d="M12 20V8"/>
+              <path d="M5 13c0-4 3-5 7-5 0 4-3 5-7 5Z"/>
+              <path d="M12 8c4 0 7 1 7 5-4 0-7-1-7-5Z"/>
+            </svg>
+          </span>
+          <span>Agriculture</span>
+        </button>
+        <button class="tab" data-tab="ports">
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 20c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1"/>
+              <path d="M5 13l-2.84 5.66c-.31.62.08 1.34.76 1.34"/>
+              <path d="M18.24 20c.68 0 1.07-.72.76-1.34L16 13"/>
+              <path d="M5 13V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5"/>
+              <path d="M5 13h14"/>
+              <path d="M12 3v3"/>
+              <path d="M9 6h6"/>
+            </svg>
+          </span>
+          <span>Port calls</span>
+        </button>
       </div>
 
       <div class="tab-section active" id="tab-food">
